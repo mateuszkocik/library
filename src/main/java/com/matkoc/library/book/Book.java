@@ -17,8 +17,8 @@ public class Book extends BaseEntity{
     @Transient
     private BookDetails bookDetails;
 
-    @Column(name="state")
-    private char stateChar;
+    @Column(name="available")
+    private char availableChar;
 
     private State state;
 }
