@@ -1,24 +1,17 @@
 package com.matkoc.library.book;
 
+import com.matkoc.library.bookdetails.BookDetails;
 import com.matkoc.library.model.BaseEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 @Entity
-@Table(name="book")
-public class Book extends BaseEntity{
+@Table(name = "books")
+public class Book extends BaseEntity {
 
-    @Column(name="bd_id")
-    private Integer bookDetailsId;
+  @ManyToOne(fetch = FetchType.LAZY)
+  private BookDetails bookDetails;
 
-    @Transient
-    private BookDetails bookDetails;
-
-    @Column(name="available")
-    private char availableChar;
-
-    private State state;
+  @Column(name = "status")
+  private BookStatus bookStatus;
 }

@@ -4,30 +4,28 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name="users")
-public class User{
+@Table(name = "users")
+public class User {
 
-    @Id
-    @Column(name="username")
-    String username;
-    @Column(name="password")
-    String password;
+  @Id
+  @Column(name = "username")
+  String username;
 
-    @OneToMany(
-            fetch = FetchType.EAGER, cascade = CascadeType.ALL,
-            mappedBy = "username"
-    )
-    List<Authority> authorities;
+  @Column(name = "password")
+  String password;
 
-    public String getUsername(){
-        return username;
-    }
+  @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "username")
+  List<Authority> authorities;
 
-    public String getPassword(){
-        return password;
-    }
+  public String getUsername() {
+    return username;
+  }
 
-    public List<Authority> getAuthorities(){
-        return authorities;
-    }
+  public String getPassword() {
+    return password;
+  }
+
+  public List<Authority> getAuthorities() {
+    return authorities;
+  }
 }
