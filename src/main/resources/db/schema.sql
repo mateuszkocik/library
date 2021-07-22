@@ -15,7 +15,6 @@ CREATE TABLE `authorities` (
 ALTER TABLE `authorities` ADD CONSTRAINT `authorities_unique` UNIQUE (username, authority);
 ALTER TABLE `authorities` ADD CONSTRAINT `authorities_fk1` FOREIGN KEY (username) REFERENCES `users` (username);
 
-
 CREATE TABLE `book_details` (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(256),
@@ -46,3 +45,20 @@ CREATE TABLE `librarians` (
     sex ENUM('UNKNOWN', 'OTHER', 'WOMEN', 'MEN')
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE `readers` (
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(64),
+    last_name VARCHAR(64),
+    birth_date DATE,
+    sex ENUM('UNKNOWN', 'OTHER', 'WOMEN', 'MEN')
+)ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `reservations` (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    book_id INT NOT NULL,
+    reader_id INT NOT NULL,
+    to_date DATE
+)ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+ALTER TABLE `reservations` ADD CONSTRAINT `reservation_fk1` FOREIGN KEY (book_id) REFERENCES `books` (id);
+ALTER TABLE `reservations` ADD CONSTRAINT `reservation_fk2` FOREIGN KEY (reader_id) REFERENCES `readers` (username);
