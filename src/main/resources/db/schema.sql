@@ -42,16 +42,24 @@ CREATE TABLE `librarians` (
     first_name VARCHAR(64),
     last_name VARCHAR(64),
     birth_date DATE,
-    sex ENUM('UNKNOWN', 'OTHER', 'WOMEN', 'MEN')
+    sex ENUM('UNKNOWN', 'OTHER', 'WOMEN', 'MEN'),
+    telephone VARCHAR(9),
+    email NVARCHAR(128) UNIQUE
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+ALTER TABLE `librarians` ADD CONSTRAINT `librarian_fk1` FOREIGN KEY (email) REFERENCES `users` (username);
 
 CREATE TABLE `readers` (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(64),
     last_name VARCHAR(64),
     birth_date DATE,
-    sex ENUM('UNKNOWN', 'OTHER', 'WOMEN', 'MEN')
+    sex ENUM('UNKNOWN', 'OTHER', 'WOMEN', 'MEN'),
+    telephone VARCHAR(9),
+    email NVARCHAR(128) UNIQUE
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+ALTER TABLE `readers` ADD CONSTRAINT `readers_fk1` FOREIGN KEY (email) REFERENCES `users` (username);
 
 CREATE TABLE `reservations` (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -61,4 +69,4 @@ CREATE TABLE `reservations` (
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 ALTER TABLE `reservations` ADD CONSTRAINT `reservation_fk1` FOREIGN KEY (book_id) REFERENCES `books` (id);
-ALTER TABLE `reservations` ADD CONSTRAINT `reservation_fk2` FOREIGN KEY (reader_id) REFERENCES `readers` (username);
+ALTER TABLE `reservations` ADD CONSTRAINT `reservation_fk2` FOREIGN KEY (reader_id) REFERENCES `readers` (id);

@@ -1,9 +1,18 @@
 package com.matkoc.library.model;
 
+import com.matkoc.library.security.User;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import javax.persistence.*;
 
+@Data
+@EqualsAndHashCode(callSuper = true)
 @MappedSuperclass
 public class Person extends BaseEntity {
+
+  @OneToOne(mappedBy = "username")
+  private User user;
 
   @Column(name = "first_name")
   private String firstName;
@@ -15,31 +24,9 @@ public class Person extends BaseEntity {
   private Sex sex;
 
   @AttributeOverrides({
-    @AttributeOverride(name = "telephoneNumber", column = @Column(name = "telephone_number"))
-    //          @AttributeOverride(name="email",
-    //                  column=@Column(name="email"))
+    @AttributeOverride(name = "telephoneNumber", column = @Column(name = "telephone")),
+    @AttributeOverride(name = "email", column = @Column(name = "email"))
   })
   @Embedded
   private ContactInformation contactInformation;
-
-  public Person() {}
-
-  public Person(String firstName, String lastName, Sex sex, ContactInformation contactInformation) {
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.sex = sex;
-    this.contactInformation = contactInformation;
-  }
-
-  public String getFirstName() {
-    return firstName;
-  }
-
-  public String getLastName() {
-    return lastName;
-  }
-
-  public ContactInformation getContactInformation() {
-    return contactInformation;
-  }
 }

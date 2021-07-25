@@ -1,10 +1,17 @@
 package com.matkoc.library.security;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "users")
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
   @Id
@@ -16,16 +23,4 @@ public class User {
 
   @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "username")
   List<Authority> authorities;
-
-  public String getUsername() {
-    return username;
-  }
-
-  public String getPassword() {
-    return password;
-  }
-
-  public List<Authority> getAuthorities() {
-    return authorities;
-  }
 }

@@ -7,4 +7,10 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "readers")
-public class Reader extends Person { }
+public class Reader extends Person {
+
+
+
+
+
+}
