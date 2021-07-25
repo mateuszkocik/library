@@ -6,6 +6,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class ReaderService{
 
-    @Autowired
     ReaderRepository readerRepository;
+
+    @Autowired
+    public ReaderService(ReaderRepository readerRepository){
+        this.readerRepository = readerRepository;
+    }
 }

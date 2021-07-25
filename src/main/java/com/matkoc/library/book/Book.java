@@ -16,11 +16,9 @@ import java.util.Collection;
 public class Book extends BaseEntity {
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "bd_id")
   private BookDetails bookDetails;
 
   @Column(name = "status")
   private BookStatus bookStatus;
-
-  @OneToMany(cascade = CascadeType.ALL)
-  private Collection<Reservation> reservations;
 }
