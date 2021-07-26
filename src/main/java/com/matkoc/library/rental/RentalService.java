@@ -12,4 +12,5 @@ public class RentalService{
     public RentalService(RentalRepository rentalRepository){
         this.rentalRepository = rentalRepository;
     }
+
 }

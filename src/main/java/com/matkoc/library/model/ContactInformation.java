@@ -7,7 +7,6 @@ import javax.persistence.Embeddable;
 @Embeddable
 @Data
 public class ContactInformation {
-
   private String telephoneNumber;
   private String email;
 }

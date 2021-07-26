@@ -11,7 +11,8 @@ import javax.persistence.*;
 @MappedSuperclass
 public class Person extends BaseEntity {
 
-  @OneToOne(mappedBy = "username")
+  @OneToOne
+  @JoinColumn(name = "email", insertable = false, updatable = false)
   private User user;
 
   @Column(name = "first_name")
@@ -21,12 +22,13 @@ public class Person extends BaseEntity {
   private String lastName;
 
   @Column(name = "sex")
+  @Enumerated(EnumType.STRING)
   private Sex sex;
 
+  @Embedded
   @AttributeOverrides({
     @AttributeOverride(name = "telephoneNumber", column = @Column(name = "telephone")),
     @AttributeOverride(name = "email", column = @Column(name = "email"))
   })
-  @Embedded
   private ContactInformation contactInformation;
 }
