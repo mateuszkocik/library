@@ -1,17 +1,13 @@
 package com.matkoc.library.security;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "users")
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 public class User {
 
   @Id

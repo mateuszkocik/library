@@ -22,8 +22,4 @@ public class ReaderService{
     public Reader getReaderByUsername(String username){
         return readerRepository.findByEmail(username);
     }
-//
-//    public List<Rental> getReaderRentals(String username){
-//        return readerRepository.findBy()
-//    }
 }
