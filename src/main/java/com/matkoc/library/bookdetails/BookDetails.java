@@ -2,10 +2,14 @@ package com.matkoc.library.bookdetails;
 
 import com.matkoc.library.book.Book;
 import com.matkoc.library.model.BaseEntity;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
+@Data
 @Entity
 @Table(name = "book_details")
 public class BookDetails extends BaseEntity {

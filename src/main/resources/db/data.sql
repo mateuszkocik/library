@@ -23,3 +23,5 @@ INSERT INTO `books` VALUES(1, 1, 'AVAILABLE');
 INSERT INTO `readers` VALUES(1, 'test123_name', 'test_123_lastname', '2000-01-01', 'MEN', '123456789', 'test123@gmail.com');
 
 INSERT INTO `rentals` VALUES(1, 1, 1, '2021-07-20', '2021-08-20', NULL, NULL);
+
+INSERT INTO `reservations` VALUES (1, 1, 1, '2021-10-10');

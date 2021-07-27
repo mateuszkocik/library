@@ -2,12 +2,10 @@ package com.matkoc.library.book;
 
 import com.matkoc.library.bookdetails.BookDetails;
 import com.matkoc.library.model.BaseEntity;
-import com.matkoc.library.reservation.Reservation;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -20,5 +18,6 @@ public class Book extends BaseEntity {
   private BookDetails bookDetails;
 
   @Column(name = "status")
+  @Enumerated(EnumType.STRING)
   private BookStatus bookStatus;
 }

@@ -5,6 +5,22 @@
     <title>Title</title>
 </head>
 <body>
-Profileazzz
+<a href=""></a>
+<h2 th:text="${reader.getFirstName()}"></h2>
+<h1>Rentals</h1>
+<div id="rentals_container">
+    <tr th:each="rental : ${reader.getRentals()}">
+        <td th:text="${rental.getFromDate()}"></td>
+        <td th:text="${rental.getToDate()}"></td>
+        <td th:text="${rental.getBook().getBookDetails().getTitle()}"></td>
+    </tr>
+</div>
+<h1>Reservations</h1>
+<div id="reservations_container">
+    <tr th:each="reservation : ${reader.getReservations()}">
+        <td th:text="${reservation.getBook().getBookDetails().getTitle()}"></td>
+        <td th:text="${reservation.getToDate()}"></td>
+    </tr>
+</div>
 </body>
 </html>
