@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -7,8 +7,14 @@
 <body>
 <h1>Librarian</h1>
 <a href="/librarian/add-user">Add user</a>
+<a href="/librarian/rent-book">Rent book</a>
 <a href="/librarian/add-book">Add Book</a>
 <a href="/librarian/add-book-details">Add Book Details</a>
 <a href="/librarian/tasks">Tasks</a>
+
+<form th:action="@{/librarian/check-profile}" method="get">
+    <input type="text" th:name="readerEmail"/>
+    <input type="submit"/>
+</form>
 </body>
 </html>

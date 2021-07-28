@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Check profile</h1>
+<h3>User details</h3>
+<div id="user_details_container" th:object="${reader}">
+    <p th:text="${reader.getId()}"></p>
+    <p th:text="${reader.getContactInformation().getEmail()}"></p>
+    <p th:text="${reader.getFirstName()}"></p>
+    <p th:text="${reader.getLastName()}"></p>
+    <p th:text="${reader.getGender().name()}"></p>
+    <p th:text="${reader.getContactInformation().getTelephoneNumber()}"></p>
+</div>
+
+
+</body>
+</html>

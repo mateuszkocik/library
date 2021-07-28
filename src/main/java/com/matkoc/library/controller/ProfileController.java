@@ -18,7 +18,7 @@ public class ProfileController {
 
   @GetMapping
   public String showProfile(Model model, Principal principal) {
-    Reader reader = readerService.getReaderByUsername(principal.getName());
+    Reader reader = readerService.getReaderByEmail(principal.getName());
     model.addAttribute("reader", reader);
     return "profile";
   }

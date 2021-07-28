@@ -33,8 +33,8 @@ public class ReaderService {
     this.userService = userService;
   }
 
-  public Reader getReaderByUsername(String username) {
-    return readerRepository.findByEmail(username);
+  public Reader getReaderByEmail(String email) {
+    return readerRepository.findByEmail(email);
   }
 
     public Reader registerNewReader(UserDTO userDto) throws UserAlreadyExistException{
