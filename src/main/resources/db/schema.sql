@@ -34,7 +34,7 @@ CREATE TABLE `librarians` (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(64) NOT NULL,
     last_name VARCHAR(64) NOT NULL,
-    birth_date DATE NOT NULL,
+    -- birth_date DATE NOT NULL,
     gender ENUM('UNKNOWN', 'OTHER', 'WOMEN', 'MEN'),
     telephone VARCHAR(9) NOT NULL,
     email NVARCHAR(128) NOT NULL UNIQUE
@@ -56,7 +56,7 @@ CREATE TABLE `readers` (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(64) NOT NULL,
     last_name VARCHAR(64) NOT NULL,
-    birth_date DATE NOT NULL,
+    -- birth_date DATE NOT NULL,
     gender ENUM('UNKNOWN', 'OTHER', 'WOMEN', 'MEN'),
     telephone VARCHAR(9) NOT NULL,
     email NVARCHAR(128) NOT NULL UNIQUE

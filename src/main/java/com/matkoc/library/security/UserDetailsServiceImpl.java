@@ -29,9 +29,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     user.setUsername(userDTO.getEmail());
     user.setPassword(userDTO.getPassword());
     user.setAuthorities(Arrays.asList(new Authority(userDTO.getEmail(), "ROLE_USER")));
-    userRepository.save(user);
 
-    return user;
+    return userRepository.save(user);
   }
 
   private boolean userExistsInDatabase(String email) {

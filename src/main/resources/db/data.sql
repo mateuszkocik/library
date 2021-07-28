@@ -27,10 +27,10 @@ INSERT INTO `books` VALUES
 (1, 1, 'AVAILABLE');
 
 INSERT INTO `readers` VALUES
-(1, 'test123_name', 'test_123_lastname', '2000-01-01', 'MEN', '123456789', 'test123@gmail.com');
+(1, 'test123_name', 'test_123_lastname', 'MEN', '123456789', 'test123@gmail.com');
 
 INSERT INTO `librarians` VALUES
-(1, 'librarian_name', 'librarian_lastname', '2000-01-01', 'WOMEN', '123456789', 'librarian@gmail.com');
+(1, 'librarian_name', 'librarian_lastname', 'WOMEN', '123456789', 'librarian@gmail.com');
 
 INSERT INTO `rentals` VALUES
 (1, 1, 1, '2021-07-20', '2021-08-20', NULL, NULL);
