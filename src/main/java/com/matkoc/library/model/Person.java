@@ -21,9 +21,9 @@ public class Person extends BaseEntity {
   @Column(name = "last_name")
   private String lastName;
 
-  @Column(name = "sex")
+  @Column(name = "gender")
   @Enumerated(EnumType.STRING)
-  private Sex sex;
+  private Gender gender;
 
   @Embedded
   @AttributeOverrides({

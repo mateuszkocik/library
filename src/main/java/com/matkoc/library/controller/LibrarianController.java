@@ -1,12 +1,14 @@
 package com.matkoc.library.controller;
 
 import com.matkoc.library.dto.UserDTO;
+import com.matkoc.library.exception.UserAlreadyExistException;
 import com.matkoc.library.reader.ReaderService;
 import com.matkoc.library.security.User;
 import com.matkoc.library.security.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/librarian")
@@ -29,6 +32,11 @@ public class LibrarianController {
     this.readerService = readerService;
   }
 
+  @GetMapping
+  public String showLibrarianPage(){
+    return "librarian";
+  }
+
   @GetMapping("/add-user")
   public String showNewUserForm(Model model) {
     UserDTO userDTO = new UserDTO();
@@ -39,16 +47,20 @@ public class LibrarianController {
 
   @PostMapping("/add-user")
   public ModelAndView registerUserAccount(
-      @ModelAttribute("user") UserDTO userDto, HttpServletRequest request, Errors errors) {
-    ModelAndView modelAndView = new ModelAndView("home");
+      @ModelAttribute("user") @Valid UserDTO userDto,
+      BindingResult result,
+      Errors errors) {
+    ModelAndView modelAndView = new ModelAndView("add_user", "user", userDto);
+    if(result.hasErrors()) return modelAndView;
+
     try {
       userDetailsService.registerNewUser(userDto);
-      //            User registered = userService.registerNewUserAccount(userDto);
-    } catch (Exception uaeEx) {
-      System.out.println("EEEEEEERRRRRRRRRRRRRRRRRRROOOOOOOOOOOOORRRRRRRRRRR");
-      //            mav.addObject("message", "An account for that username/email already exists.");
+    } catch (UserAlreadyExistException e) {
+      modelAndView.addObject("message", "An account for that username/email already exists.");
+      return modelAndView;
     }
-    return modelAndView;
+
+    return new ModelAndView("/librarian");
   }
 
   @GetMapping("/tasks")

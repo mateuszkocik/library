@@ -35,7 +35,7 @@ CREATE TABLE `librarians` (
     first_name VARCHAR(64) NOT NULL,
     last_name VARCHAR(64) NOT NULL,
     birth_date DATE NOT NULL,
-    sex ENUM('UNKNOWN', 'OTHER', 'WOMEN', 'MEN'),
+    gender ENUM('UNKNOWN', 'OTHER', 'WOMEN', 'MEN'),
     telephone VARCHAR(9) NOT NULL,
     email NVARCHAR(128) NOT NULL UNIQUE
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -57,7 +57,7 @@ CREATE TABLE `readers` (
     first_name VARCHAR(64) NOT NULL,
     last_name VARCHAR(64) NOT NULL,
     birth_date DATE NOT NULL,
-    sex ENUM('UNKNOWN', 'OTHER', 'WOMEN', 'MEN'),
+    gender ENUM('UNKNOWN', 'OTHER', 'WOMEN', 'MEN'),
     telephone VARCHAR(9) NOT NULL,
     email NVARCHAR(128) NOT NULL UNIQUE
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;

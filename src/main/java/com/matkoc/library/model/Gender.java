@@ -1,6 +1,6 @@
 package com.matkoc.library.model;
 
-public enum Sex{
+public enum Gender{
     UNKNOWN,
     OTHER,
     WOMEN,

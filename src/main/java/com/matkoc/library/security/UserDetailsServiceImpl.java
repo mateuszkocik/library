@@ -1,6 +1,7 @@
 package com.matkoc.library.security;
 
 import com.matkoc.library.dto.UserDTO;
+import com.matkoc.library.exception.UserAlreadyExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,12 +22,19 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     return new CustomUserDetails(user);
   }
 
-  public User registerNewUser(UserDTO userDTO) {
+  public User registerNewUser(UserDTO userDTO) throws UserAlreadyExistException {
+    if (userExistsInDatabase(userDTO.getEmail())) throw new UserAlreadyExistException(userDTO.getEmail());
+
     User user = new User();
     user.setUsername(userDTO.getEmail());
     user.setPassword(userDTO.getPassword());
     user.setAuthorities(Arrays.asList(new Authority(userDTO.getEmail(), "ROLE_USER")));
     userRepository.save(user);
+
     return user;
+  }
+
+  private boolean userExistsInDatabase(String email) {
+    return userRepository.getUserByUsername(email) != null;
   }
 }
