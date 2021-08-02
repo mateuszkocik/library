@@ -37,7 +37,7 @@ public class UserAuthenticationSuccessHandler implements AuthenticationSuccessHa
         }
 
         if (isInactive) {
-            redirectStrategy.sendRedirect(request, response, "/change-password");
+            redirectStrategy.sendRedirect(request, response, "/login/activate-account");
         }else if (isLibrarian){
             redirectStrategy.sendRedirect(request, response, "/librarian");
         } else {

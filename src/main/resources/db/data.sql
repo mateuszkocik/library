@@ -15,12 +15,12 @@ DELETE FROM `users`;
 INSERT INTO `users` VALUES
 ('test123@gmail.com', '$2y$12$TLo0xjM.dXfoi8PkBl.NNOOp6/12YWcep3NGT1RzClD1N8kBARkE6'), -- test123@gmail.com test123
 ('librarian@gmail.com', '$2y$12$3vOD4VzNBSXt.fAm5/Xm0.NekB4n/Y4k2OWj/h5zB7FDppvbPtUiC'), -- librarian@gmail.com test123
-('inactive@gmail.com', '$2y$12$cg7VliRBuIW./QtzIZVj4eLevqkK4U3vTl4I/XFSKc7i/5BtkYHY2') -- inactive@gmail.com test123
-
+('inactive@gmail.com', '$2y$12$cg7VliRBuIW./QtzIZVj4eLevqkK4U3vTl4I/XFSKc7i/5BtkYHY2'); -- inactive@gmail.com test123
 
 INSERT INTO `authorities` VALUES
 ('test123@gmail.com', 'ROLE_READER'),
-('librarian@gmail.com', 'ROLE_LIBRARIAN');
+('librarian@gmail.com', 'ROLE_LIBRARIAN'),
+('inactive@gmail.com', 'ROLE_INACTIVE');
 
 INSERT INTO `book_details` VALUES
 (1, 'Romeo and Juliet', '	Shakespearean tragedy', 'Penguin Random House');

@@ -43,7 +43,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
             .antMatchers("/librarian/*").hasRole("LIBRARIAN")
             .antMatchers("/reader").hasRole("READER")
-            .antMatchers("/login/inactive").hasRole("INACTIVE")
+            .antMatchers("/login/activate-account").hasRole("INACTIVE")
             .anyRequest().authenticated()
         .and()
             .formLogin()

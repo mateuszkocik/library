@@ -45,8 +45,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     return userRepository.getUserByUsername(email) != null;
   }
 
-  public void activateUser(User user, String newPassword) {
-    user.setAuthorities(List.of(new Authority(user.getUsername(), ROLE_READER)));
+  public void activateUser(String email, String newPassword) {
+    User user = new User();
+    user.setUsername(email);
+    user.setAuthorities(List.of(new Authority(email, ROLE_READER)));
+    user.setPassword(passwordEncoder.encode(newPassword));
     userRepository.save(user);
   }
 }

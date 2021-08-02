@@ -11,12 +11,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.security.Principal;
 
-@Controller("/login")
+@Controller
+@RequestMapping("/login")
 public class LoginController{
 
     @Autowired
@@ -27,23 +29,27 @@ public class LoginController{
         return "login";
     }
 
-    @GetMapping("/inactive")
-    public String showChangePasswordForm(Model model, Principal principal){
-        model.addAttribute("user", userDetailsService.loadUserByUsername(principal.getName()));
-        return "inactive";
+    @GetMapping("/activate-account")
+    public String showChangePasswordForm(Model model){
+        model.addAttribute("password", new PasswordDTO());
+        return "activate_account";
     }
 
-  @PostMapping("/inactive")
+  @PostMapping("/activate-account")
   public ModelAndView processPasswordChange(
-          @ModelAttribute("user") User user,
+          Principal principal,
           @ModelAttribute("password") @Valid PasswordDTO passwordDTO, BindingResult result) {
-      ModelAndView modelAndView = new ModelAndView("inactive", "password", passwordDTO);
+      ModelAndView modelAndView = new ModelAndView("activate_account", "password", passwordDTO);
+      System.out.println("1");
       if(result.hasErrors()) return modelAndView;
+      System.out.println("2");
       if(passwordsAreNotMatching(passwordDTO)){
           modelAndView.addObject("message", "Passwords are not matching");
+          System.out.println("3");
           return modelAndView;
       }
-      userDetailsService.activateUser(user, passwordDTO.getPassword());
+      userDetailsService.activateUser(principal.getName(), passwordDTO.getPassword());
+      System.out.println("4");
 
       return new ModelAndView("/reader");
   }

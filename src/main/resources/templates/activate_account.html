@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+wypisac jaki format hasla
+<form action="/login/activate-account" th:object="${password}" method="POST" enctype="utf8">
+    <div>
+        <input type="password" th:field="*{password}" th:value="${password.getPassword()}"/>
+        <p th:each="error: ${#fields.errors('password')}"
+           th:text="${error}">Validation error</p>
+    </div>
+    <div>
+        <input type="password" th:field="*{matchingPassword}" th:value="${password.getMatchingPassword()}"/>
+        <p th:each="error : ${#fields.errors('matchingPassword')}"
+           th:text="${error}">Validation error</p>
+    </div>
+    <button type="submit">Change password</button>
+</form>
+</body>
+</html>
