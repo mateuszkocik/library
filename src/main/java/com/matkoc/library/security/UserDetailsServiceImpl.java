@@ -6,14 +6,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
   @Autowired private UserRepository userRepository;
+  @Autowired private PasswordEncoder passwordEncoder;
+  private final String ROLE_READER = "ROLE_READER";
+  private final String ROLE_INACTIVE = "ROLE_INACTIVE";
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -23,17 +29,24 @@ public class UserDetailsServiceImpl implements UserDetailsService {
   }
 
   public User registerNewUser(UserDTO userDTO) throws UserAlreadyExistException {
-    if (userExistsInDatabase(userDTO.getEmail())) throw new UserAlreadyExistException(userDTO.getEmail());
+    System.out.println(userDTO.getPassword());
+    if (userExistsInDatabase(userDTO.getEmail()))
+      throw new UserAlreadyExistException(userDTO.getEmail());
 
     User user = new User();
     user.setUsername(userDTO.getEmail());
-    user.setPassword(userDTO.getPassword());
-    user.setAuthorities(Arrays.asList(new Authority(userDTO.getEmail(), "ROLE_USER")));
+    user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+    user.setAuthorities(Arrays.asList(new Authority(userDTO.getEmail(), ROLE_INACTIVE)));
 
     return userRepository.save(user);
   }
 
   private boolean userExistsInDatabase(String email) {
     return userRepository.getUserByUsername(email) != null;
+  }
+
+  public void activateUser(User user, String newPassword) {
+    user.setAuthorities(List.of(new Authority(user.getUsername(), ROLE_READER)));
+    userRepository.save(user);
   }
 }

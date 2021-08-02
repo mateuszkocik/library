@@ -7,6 +7,7 @@ import com.matkoc.library.exception.UserAlreadyExistException;
 import com.matkoc.library.reader.Reader;
 import com.matkoc.library.reader.ReaderService;
 import com.matkoc.library.rental.RentalService;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,9 +40,14 @@ public class LibrarianController {
   @GetMapping("/add-user")
   public String showNewUserForm(Model model) {
     UserDTO userDTO = new UserDTO();
+    userDTO.setPassword(generateRandomPassword());
     model.addAttribute("user", userDTO);
 
     return "add_user";
+  }
+
+  private String generateRandomPassword(){
+    return RandomStringUtils.randomAlphabetic(10);
   }
 
   @PostMapping("/add-user")

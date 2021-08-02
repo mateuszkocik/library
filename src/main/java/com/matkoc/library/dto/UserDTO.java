@@ -13,7 +13,6 @@ public class UserDTO {
   @Email(message = "Must have abc@def.xyz format")
   private String email;
 
-  @NotBlank(message = "Password is mandatory")
   private String password;
 
   @NotBlank(message = "First name is mandatory")
