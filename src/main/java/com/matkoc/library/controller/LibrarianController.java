@@ -1,6 +1,7 @@
 package com.matkoc.library.controller;
 
-import com.matkoc.library.dto.RentalDTO;
+import com.matkoc.library.bookdetails.BookDetailsService;
+import com.matkoc.library.dto.BookDetailsDTO;
 import com.matkoc.library.dto.UserDTO;
 import com.matkoc.library.exception.UserAlreadyExistException;
 import com.matkoc.library.reader.Reader;
@@ -21,11 +22,13 @@ public class LibrarianController {
 
   private final ReaderService readerService;
   private final RentalService rentalService;
+  private final BookDetailsService bookDetailsService;
 
   @Autowired
-  public LibrarianController(ReaderService readerService, RentalService rentalService){
+  public LibrarianController(ReaderService readerService, RentalService rentalService, BookDetailsService bookDetailsService){
     this.readerService = readerService;
     this.rentalService = rentalService;
+    this.bookDetailsService = bookDetailsService;
   }
 
   @GetMapping
@@ -102,7 +105,24 @@ public class LibrarianController {
   }
 
   @GetMapping("/add-book-details")
-  public String showAddBookDetailsForm() {
-    return "add-book-detail";
+  public String showAddBookDetailsForm(Model model) {
+    model.addAttribute("bookDetails", new BookDetailsDTO());
+    return "add_book_detail";
+  }
+
+  @PostMapping("/add-book-details")
+  public ModelAndView addBookDetails(
+          @ModelAttribute("bookDetails") @Valid BookDetailsDTO bookDetailsDTO, BindingResult result) {
+    ModelAndView modelAndView = new ModelAndView("add_book_detail", "bookDetails", bookDetailsDTO);
+    if(result.hasErrors()) return modelAndView;
+
+    try {
+      bookDetailsService.addBookDetails(bookDetailsDTO);
+    } catch (Exception e) {
+      modelAndView.addObject("message", "Failed to add book details");
+      return modelAndView;
+    }
+
+    return new ModelAndView("/librarian");
   }
 }
