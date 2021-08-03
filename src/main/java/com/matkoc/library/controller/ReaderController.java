@@ -11,8 +11,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.security.Principal;
 
 @Controller
-@RequestMapping("/profile")
-public class ProfileController {
+@RequestMapping("/reader")
+public class ReaderController {
 
+  @Autowired
+  ReaderService readerService;
 
+  @GetMapping
+  public String showReaderPage() {
+    return "reader";
+  }
+
+  @GetMapping("/profile")
+  public String showProfile(Model model, Principal principal) {
+    Reader reader = readerService.getReaderByEmail(principal.getName());
+    model.addAttribute("reader", reader);
+    return "profile";
+  }
 }
