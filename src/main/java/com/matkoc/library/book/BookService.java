@@ -3,6 +3,7 @@ package com.matkoc.library.book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
@@ -16,7 +17,8 @@ public class BookService {
   }
 
 
-  private Optional<Book> getBookById(Long id){
-    return bookRepository.findById(id);
+  public ArrayList<Book> findBooksWithBookDetails(Long bookDetailsId){
+    return bookRepository.findBookByBookDetails_Id(bookDetailsId);
   }
+
 }

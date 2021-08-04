@@ -5,8 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 @Service
 public class BookDetailsService {
@@ -15,6 +13,10 @@ public class BookDetailsService {
   @Autowired
   public BookDetailsService(BookDetailsRepository bookDetailsRepository) {
     this.bookDetailsRepository = bookDetailsRepository;
+  }
+
+  public BookDetails findById(Long id){
+    return bookDetailsRepository.findById(id).get();
   }
 
   public ArrayList<BookDetails> findBookDetails(BookDetailsDTO bookDetails) {

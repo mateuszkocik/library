@@ -1,5 +1,7 @@
 package com.matkoc.library.controller;
 
+import com.matkoc.library.book.Book;
+import com.matkoc.library.book.BookService;
 import com.matkoc.library.bookdetails.BookDetails;
 import com.matkoc.library.bookdetails.BookDetailsService;
 import com.matkoc.library.dto.BookDetailsDTO;
@@ -8,16 +10,11 @@ import com.matkoc.library.reader.ReaderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 @Controller
 @RequestMapping("/reader")
@@ -27,6 +24,8 @@ public class ReaderController {
   ReaderService readerService;
   @Autowired
   BookDetailsService bookDetailsService;
+  @Autowired
+  BookService bookService;
 
   @GetMapping
   public String showReaderPage() {
@@ -56,6 +55,16 @@ public class ReaderController {
     modelAndView.addObject("results", results);
     modelAndView.addObject("bookDetails", bookDetails);
 
+    return modelAndView;
+  }
+
+  @GetMapping("bookdetails")
+  public ModelAndView showBookDetails(@RequestParam Long id){
+    ModelAndView modelAndView = new ModelAndView("reader_book");
+    ArrayList<Book> books = bookService.findBooksWithBookDetails(id);
+    BookDetails bookDetails = bookDetailsService.findById(id);
+    modelAndView.addObject("books", books);
+    modelAndView.addObject("bookDetails", bookDetails);
     return modelAndView;
   }
 }

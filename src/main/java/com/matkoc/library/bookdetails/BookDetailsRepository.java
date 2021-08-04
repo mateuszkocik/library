@@ -8,5 +8,6 @@ import java.util.ArrayList;
 @Repository
 public interface BookDetailsRepository extends JpaRepository<BookDetails, Long> {
 
-    public ArrayList<BookDetails> findBookDetailsByTitleContainingAndGenreContainingAndPublisherContaining(String title, String genre, String publisher);
+  ArrayList<BookDetails> findBookDetailsByTitleContainingAndGenreContainingAndPublisherContaining(
+      String title, String genre, String publisher);
 }

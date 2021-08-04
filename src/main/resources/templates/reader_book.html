@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="book_details_container" th:object="${bookDetails}">
+    Title
+    <span th:text="${bookDetails.getTitle()}"></span>
+    Genre
+    <span th:text="${bookDetails.getGenre()}"></span>
+    Publisher
+    <span th:text="${bookDetails.getPublisher()}"></span>
+</div>
+<div id="books_container">
+    <table>
+        <tr>
+            <th>Status</th>
+        </tr>
+        <tr th:each ="book : ${books}">
+            <td th:text="${book.getBookStatus().name()}"/>
+            <td>Reserve</td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>
