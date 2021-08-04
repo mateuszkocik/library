@@ -24,17 +24,18 @@
     <button type="submit">Search</button>
 </form>
 
-<div id="result_container">
+<div id="result_container" th:if="${results == null or !results.isEmpty()}">
     <table>
         <tr>
             <th>Title</th>
             <th>Genre</th>
             <th>Publisher</th>
         </tr>
-        <tr th:each="bD : ${results}">
+        <tr th:each ="bD : ${results}">
             <td th:text="${bD.getTitle()}"/>
             <td th:text="${bD.getGenre()}"/>
             <td th:text="${bD.getPublisher()}"/>
+            <td><a th:href="@{~/reader/bookdetails(id=${bD.getId()})}">Details</a></td>
         </tr>
     </table>
 </div>
