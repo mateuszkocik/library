@@ -5,6 +5,8 @@
     <title>Title</title>
 </head>
 <body>
+
+<span th:if="${message}" th:text="${message}"></span>
 <div id="book_details_container" th:object="${bookDetails}">
     Title
     <span th:text="${bookDetails.getTitle()}"></span>
@@ -20,7 +22,11 @@
         </tr>
         <tr th:each ="book : ${books}">
             <td th:text="${book.getBookStatus().name()}"/>
-            <td>Reserve</td>
+            <td th:if="${book.getBookStatus().name() == 'AVAILABLE'}">
+                <form th:action="@{~/reader/reservebook(bookId=${book.getId()})}" method="post">
+                    <button type="submit">Reserve</button>
+                </form>
+            </td>
         </tr>
     </table>
 </div>

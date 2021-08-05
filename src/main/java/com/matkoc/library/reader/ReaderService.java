@@ -37,17 +37,27 @@ public class ReaderService {
     return readerRepository.findByEmail(email);
   }
 
-    public Reader registerNewReader(UserDTO userDto) throws UserAlreadyExistException{
-      User user = userService.registerNewUser(userDto);
-      Reader reader = new Reader();
-      reader.setUser(user);
-      reader.setFirstName(userDto.getFirstName());
-      reader.setLastName(userDto.getLastName());
-      reader.setGender(Gender.valueOf(userDto.getGender()));
-      ContactInformation contactInformation = new ContactInformation(userDto.getTelephoneNumber(), userDto.getEmail());
-      reader.setContactInformation(contactInformation);
-      reader.setReservations(Collections.emptyList());
-      reader.setRentals(Collections.emptyList());
-      return readerRepository.save(reader);
-    }
+  public Reader registerNewReader(UserDTO userDto) throws UserAlreadyExistException {
+    User user = userService.registerNewUser(userDto);
+    Reader reader = new Reader();
+    reader.setUser(user);
+    reader.setFirstName(userDto.getFirstName());
+    reader.setLastName(userDto.getLastName());
+    reader.setGender(Gender.valueOf(userDto.getGender()));
+    ContactInformation contactInformation =
+        new ContactInformation(userDto.getTelephoneNumber(), userDto.getEmail());
+    reader.setContactInformation(contactInformation);
+    reader.setReservations(Collections.emptyList());
+    reader.setRentals(Collections.emptyList());
+    return readerRepository.save(reader);
+  }
+
+  public boolean readerHasLessThan5Reservations(Reader reader) {
+    if (reader.getReservations() == null) return false;
+    return reader.getReservations().size() < 5;
+  }
+
+  public Reader save(Reader reader) {
+    return readerRepository.save(reader);
+  }
 }

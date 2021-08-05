@@ -20,4 +20,8 @@ public class Book extends BaseEntity {
   @Column(name = "status")
   @Enumerated(EnumType.STRING)
   private BookStatus bookStatus;
+
+  public boolean isAvailable(){
+    return this.getBookStatus() == BookStatus.AVAILABLE;
+  }
 }

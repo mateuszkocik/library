@@ -23,10 +23,14 @@ INSERT INTO `authorities` VALUES
 ('inactive@gmail.com', 'ROLE_INACTIVE');
 
 INSERT INTO `book_details` VALUES
-(1, 'Romeo and Juliet', '	Shakespearean tragedy', 'Penguin Random House');
+(1, 'Romeo and Juliet', '	Shakespearean tragedy', 'Penguin Random House'),
+(2, 'sieeema', 'eloo', 'zzz'),
+(3, 'zzzzzzzzzzz', 'oooooooo', 'iiiiii');
 
 INSERT INTO `books` VALUES
-(1, 1, 'AVAILABLE');
+(1, 1, 'AVAILABLE'),
+(2, 2, 'AVAILABLE'),
+(3,1, 'AVAILABLE');
 
 INSERT INTO `readers` VALUES
 (1, 'test123_name', 'test_123_lastname', 'MEN', '123456789', 'test123@gmail.com');
@@ -38,4 +42,5 @@ INSERT INTO `rentals` VALUES
 (1, 1, 1, '2021-07-20', '2021-08-20', NULL, NULL);
 
 INSERT INTO `reservations` VALUES
+(2, 2, 1, '2021-12-12'),
 (1, 1, 1, '2021-10-10');
