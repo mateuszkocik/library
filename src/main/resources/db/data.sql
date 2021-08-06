@@ -42,5 +42,4 @@ INSERT INTO `rentals` VALUES
 (1, 1, 1, '2021-07-20', '2021-08-20', NULL, NULL);
 
 INSERT INTO `reservations` VALUES
-(2, 2, 1, '2021-12-12'),
 (1, 1, 1, '2021-10-10');

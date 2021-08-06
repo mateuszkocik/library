@@ -3,7 +3,7 @@ package com.matkoc.library.security;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -18,5 +18,5 @@ public class User {
   String password;
 
   @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "username")
-  List<Authority> authorities;
+  Set<Authority> authorities;
 }

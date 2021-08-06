@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -36,7 +37,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     User user = new User();
     user.setUsername(userDTO.getEmail());
     user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-    user.setAuthorities(Arrays.asList(new Authority(userDTO.getEmail(), ROLE_INACTIVE)));
+    user.setAuthorities(Set.of(new Authority(userDTO.getEmail(), ROLE_INACTIVE)));
 
     return userRepository.save(user);
   }
@@ -48,7 +49,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
   public void activateUser(String email, String newPassword) {
     User user = new User();
     user.setUsername(email);
-    user.setAuthorities(List.of(new Authority(email, ROLE_READER)));
+    user.setAuthorities(Set.of(new Authority(email, ROLE_READER)));
     user.setPassword(passwordEncoder.encode(newPassword));
     userRepository.save(user);
   }

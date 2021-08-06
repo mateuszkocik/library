@@ -16,13 +16,14 @@ import java.time.LocalDate;
 @Table(name = "rentals")
 public class Rental extends BaseEntity{
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
     Book book;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reader_id")
     Reader reader;
+
     LocalDate fromDate;
     LocalDate toDate;
     LocalDate returnDate;

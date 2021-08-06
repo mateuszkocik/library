@@ -23,6 +23,6 @@ public class BookDetails extends BaseEntity {
   @Column(name = "publisher")
   private String publisher;
 
-  @OneToMany(cascade = CascadeType.ALL)
+  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "bookDetails")
   private List<Book> books;
 }
