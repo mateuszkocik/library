@@ -20,6 +20,11 @@
     <tr th:each="reservation : ${reader.getReservations()}">
         <td th:text="${reservation.getBook().getBookDetails().getTitle()}"></td>
         <td th:text="${reservation.getToDate()}"></td>
+        <td>
+            <form th:action="@{~/reader/profile/cancelReservation(id=${reservation.getId()})}" method="post">
+                <button type="submit">Cancel</button>
+            </form>
+        </td>
     </tr>
 </div>
 </body>

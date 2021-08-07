@@ -24,4 +24,10 @@ public class ReservationService {
     bookService.save(book);
     return reservationRepository.save(reservation);
   }
+
+  public void cancelReservation(Long id) {
+    Reservation reservation = reservationRepository.findById(id).get();
+    bookService.setBookStatus(reservation.getBook(), BookStatus.AVAILABLE);
+    reservationRepository.delete(reservation);
+  }
 }

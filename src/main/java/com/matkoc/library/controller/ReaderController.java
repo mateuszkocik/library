@@ -45,6 +45,15 @@ public class ReaderController {
     return "profile";
   }
 
+  @PostMapping("/profile/cancelReservation")
+  public ModelAndView cancelReservation(Principal principal, @RequestParam(value = "id") Long id) {
+    ModelAndView modelAndView = new ModelAndView("profile");
+    Reader reader = readerService.getReaderByEmail(principal.getName());
+    modelAndView.addObject("reader", reader);
+    reservationService.cancelReservation(id);
+    return modelAndView;
+  }
+
   @GetMapping("/search")
   public String showSearchPage(Model model){
     model.addAttribute("results", new ArrayList<BookDetails>());

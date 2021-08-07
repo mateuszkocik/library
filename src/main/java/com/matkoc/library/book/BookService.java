@@ -12,4 +12,9 @@ public class BookService {
   public Book save(Book book){
     return bookRepository.save(book);
   }
+
+  public Book setBookStatus(Book book, BookStatus status) {
+    book.setBookStatus(status);
+    return bookRepository.save(book);
+  }
 }
