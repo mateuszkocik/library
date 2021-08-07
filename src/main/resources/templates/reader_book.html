@@ -14,21 +14,10 @@
     <span th:text="${bookDetails.getGenre()}"></span>
     Publisher
     <span th:text="${bookDetails.getPublisher()}"></span>
-</div>
-<div id="books_container">
-    <table>
-        <tr>
-            <th>Status</th>
-        </tr>
-        <tr th:each ="book : ${books}">
-            <td th:text="${book.getBookStatus().name()}"/>
-            <td th:if="${book.getBookStatus().name() == 'AVAILABLE'}">
-                <form th:action="@{~/reader/reservebook(bookId=${book.getId()})}" method="post">
-                    <button type="submit">Reserve</button>
-                </form>
-            </td>
-        </tr>
-    </table>
+
+    <form th:if="${available}" th:action="@{~/reader/bookdetails(id=${bookDetails.getId()})}" method="post">
+        <button type="submit">Reserve</button>
+    </form>
 </div>
 </body>
 </html>

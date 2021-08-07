@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Collection;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -24,5 +24,5 @@ public class BookDetails extends BaseEntity {
   private String publisher;
 
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "bookDetails")
-  private List<Book> books;
+  private Collection<Book> books;
 }

@@ -2,12 +2,12 @@ package com.matkoc.library.controller;
 
 import com.matkoc.library.book.Book;
 import com.matkoc.library.book.BookService;
+import com.matkoc.library.book.BookStatus;
 import com.matkoc.library.bookdetails.BookDetails;
 import com.matkoc.library.bookdetails.BookDetailsService;
 import com.matkoc.library.dto.BookDetailsDTO;
 import com.matkoc.library.reader.Reader;
 import com.matkoc.library.reader.ReaderService;
-import com.matkoc.library.reservation.Reservation;
 import com.matkoc.library.reservation.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,8 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Optional;
+import java.util.*;
+
+import static com.matkoc.library.book.BookStatus.AVAILABLE;
 
 @Controller
 @RequestMapping("/reader")
@@ -40,10 +41,6 @@ public class ReaderController {
   @GetMapping("/profile")
   public String showProfile(Model model, Principal principal) {
     Reader reader = readerService.getReaderByEmail(principal.getName());
-    System.out.println("resssss");
-    for (Reservation res : reader.getReservations()) {
-      System.out.println(res.getId());
-    }
     model.addAttribute("reader", reader);
     return "profile";
   }
@@ -70,35 +67,49 @@ public class ReaderController {
   @GetMapping("/bookdetails")
   public ModelAndView showBookDetails(@RequestParam Long id){
     ModelAndView modelAndView = new ModelAndView("reader_book");
-    ArrayList<Book> books = bookService.findBooksWithBookDetails(id);
     BookDetails bookDetails = bookDetailsService.findById(id);
-    modelAndView.addObject("books", books);
     modelAndView.addObject("bookDetails", bookDetails);
-    return modelAndView;
+    HashMap<BookStatus, Long> bookStatusCount = getBookStatusCount(bookDetails);
+    return bookStatusCount.get(AVAILABLE) > 0
+        ? modelAndView.addObject("available", true)
+        : modelAndView;
   }
 
-  @PostMapping("/reservebook")
+  private HashMap<BookStatus, Long> getBookStatusCount(BookDetails bookDetails) {
+    Collection<Book> books = bookDetails.getBooks();
+    HashMap<BookStatus, Long> statusCount = new HashMap<>();
+    for(BookStatus bs : BookStatus.values()) {
+      Long amount = books.stream()
+              .filter(b -> b.getBookStatus().equals(bs))
+              .count();
+      statusCount.put(bs, amount);
+      System.out.println(bs.name() + " " + amount);
+    }
+    return statusCount;
+  }
+
+  @PostMapping("/bookdetails")
   public ModelAndView reserveBook(
-      @RequestParam Long bookId,
-      @ModelAttribute("bookDetails") BookDetails bookDetails,
+      @RequestParam(value = "id") Long id,
       Principal principal) {
+    BookDetails bookDetails = bookDetailsService.findById(id);
     ModelAndView modelAndView = new ModelAndView("reader_book");
     modelAndView.addObject("bookDetails", bookDetails);
 
-    Optional<Book> bookO = bookService.findBookById(bookId);
-    if (bookO.isEmpty()) return modelWithMessage(modelAndView, "Book with that id does not exist.");
-
-    Book book = bookO.get();
-    if (!book.isAvailable()) return modelWithMessage(modelAndView, "Book is not available.");
+    Optional<Book> book = getFirstAvailable(bookDetails);
+    if(book.isEmpty()) return modelWithMessage(modelAndView, "No available books");
 
     Reader reader = readerService.getReaderByEmail(principal.getName());
     if (!readerService.readerHasLessThan5Reservations(reader))
       return modelWithMessage(modelAndView, "Can not reserve more than 5 books.");
 
-    Reservation reservation = reservationService.createReservation(book, reader);
-//    reader.getReservations().add(reservation);
-//    readerService.save(reader);
+    reservationService.createReservation(book.get(), reader);
+
     return modelWithMessage(modelAndView, "Reservation succeeded.");
+  }
+
+  private Optional<Book> getFirstAvailable(BookDetails bookDetails){
+    return bookDetails.getBooks().stream().filter(Book::isAvailable).findAny();
   }
 
   private ModelAndView modelWithMessage(ModelAndView modelAndView, String message){
