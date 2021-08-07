@@ -94,7 +94,6 @@ public class ReaderController {
               .filter(b -> b.getBookStatus().equals(bs))
               .count();
       statusCount.put(bs, amount);
-      System.out.println(bs.name() + " " + amount);
     }
     return statusCount;
   }

@@ -28,7 +28,7 @@ INSERT INTO `book_details` VALUES
 (3, 'zzzzzzzzzzz', 'oooooooo', 'iiiiii');
 
 INSERT INTO `books` VALUES
-(1, 1, 'AVAILABLE'),
+(1, 1, 'RESERVED'),
 (2, 2, 'AVAILABLE'),
 (3,1, 'AVAILABLE');
 

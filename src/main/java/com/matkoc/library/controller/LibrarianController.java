@@ -8,6 +8,7 @@ import com.matkoc.library.reader.Reader;
 import com.matkoc.library.reader.ReaderService;
 import com.matkoc.library.rental.RentalService;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -114,11 +115,23 @@ public class LibrarianController {
     return new ModelAndView(viewPrefix + "/librarian");
   }
 
-  @GetMapping("/readerProfile")
-  public ModelAndView showUser(@RequestParam(value = "userEmail") String userEmail) {
-    ModelAndView modelAndView = new ModelAndView(viewPrefix + "readerProfile");
+//  @GetMapping("/check-profile")
+//  public ModelAndView showCheckProfile() {
+//    return new ModelAndView(viewPrefix + "check_profile");
+//  }
 
-
+  @GetMapping("/check-profile")
+  public ModelAndView showReaderProfileDetails(@RequestParam(value = "email") String readerEmail) {
+    ModelAndView modelAndView = new ModelAndView(viewPrefix + "check_profile");
+    Reader reader = readerService.getReaderByEmail(readerEmail);
+    if (StringUtils.isNotBlank(readerEmail) && reader == null)
+      return modelWithMessage(
+          modelAndView, "Reader with email: " + readerEmail + " does not exists.");
+    modelAndView.addObject("reader", reader);
     return modelAndView;
+  }
+
+  private ModelAndView modelWithMessage(ModelAndView modelAndView, String message){
+    return modelAndView.addObject("message", message);
   }
 }
