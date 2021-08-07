@@ -21,37 +21,35 @@ import java.security.Principal;
 @RequestMapping("/login")
 public class LoginController{
 
+    private final String viewPrefix = "/security/";
+
     @Autowired
     UserDetailsServiceImpl userDetailsService;
 
     @GetMapping
     public String showLoginForm(){
-        return "login";
+        return viewPrefix + "login";
     }
 
     @GetMapping("/activate-account")
     public String showChangePasswordForm(Model model){
         model.addAttribute("password", new PasswordDTO());
-        return "activate_account";
+        return viewPrefix + "activate_account";
     }
 
   @PostMapping("/activate-account")
   public ModelAndView processPasswordChange(
           Principal principal,
           @ModelAttribute("password") @Valid PasswordDTO passwordDTO, BindingResult result) {
-      ModelAndView modelAndView = new ModelAndView("activate_account", "password", passwordDTO);
-      System.out.println("1");
+      ModelAndView modelAndView = new ModelAndView(viewPrefix + "activate_account", "password", passwordDTO);
       if(result.hasErrors()) return modelAndView;
-      System.out.println("2");
       if(passwordsAreNotMatching(passwordDTO)){
           modelAndView.addObject("message", "Passwords are not matching");
-          System.out.println("3");
           return modelAndView;
       }
       userDetailsService.activateUser(principal.getName(), passwordDTO.getPassword());
-      System.out.println("4");
 
-      return new ModelAndView("/reader");
+      return new ModelAndView(viewPrefix + "/reader");
   }
 
   private boolean passwordsAreNotMatching(PasswordDTO passwordDTO){

@@ -24,6 +24,8 @@ import static com.matkoc.library.book.BookStatus.AVAILABLE;
 @RequestMapping("/reader")
 public class ReaderController {
 
+  private final String viewPrefix = "/reader/";
+
   @Autowired
   ReaderService readerService;
   @Autowired
@@ -35,19 +37,19 @@ public class ReaderController {
 
   @GetMapping
   public String showReaderPage() {
-    return "reader";
+    return viewPrefix + "reader";
   }
 
   @GetMapping("/profile")
   public String showProfile(Model model, Principal principal) {
     Reader reader = readerService.getReaderByEmail(principal.getName());
     model.addAttribute("reader", reader);
-    return "profile";
+    return viewPrefix + "profile";
   }
 
   @PostMapping("/profile/cancelReservation")
   public ModelAndView cancelReservation(Principal principal, @RequestParam(value = "id") Long id) {
-    ModelAndView modelAndView = new ModelAndView("profile");
+    ModelAndView modelAndView = new ModelAndView(viewPrefix + "profile");
     Reader reader = readerService.getReaderByEmail(principal.getName());
     modelAndView.addObject("reader", reader);
     reservationService.cancelReservation(id);
@@ -58,14 +60,14 @@ public class ReaderController {
   public String showSearchPage(Model model){
     model.addAttribute("results", new ArrayList<BookDetails>());
     model.addAttribute("bookDetails", new BookDetailsDTO());
-    return "search";
+    return viewPrefix + "search";
   }
 
   @PostMapping("/search")
   public ModelAndView viewResults(
           @ModelAttribute("results") ArrayList<BookDetails> results,
           @ModelAttribute("bookDetails") BookDetailsDTO bookDetails) {
-    ModelAndView modelAndView = new ModelAndView("search");
+    ModelAndView modelAndView = new ModelAndView(viewPrefix + "search");
     results = bookDetailsService.findBookDetails(bookDetails);
     modelAndView.addObject("results", results);
     modelAndView.addObject("bookDetails", bookDetails);
@@ -75,7 +77,7 @@ public class ReaderController {
 
   @GetMapping("/bookdetails")
   public ModelAndView showBookDetails(@RequestParam Long id){
-    ModelAndView modelAndView = new ModelAndView("reader_book");
+    ModelAndView modelAndView = new ModelAndView(viewPrefix + "reader_book");
     BookDetails bookDetails = bookDetailsService.findById(id);
     modelAndView.addObject("bookDetails", bookDetails);
     HashMap<BookStatus, Long> bookStatusCount = getBookStatusCount(bookDetails);
@@ -102,7 +104,7 @@ public class ReaderController {
       @RequestParam(value = "id") Long id,
       Principal principal) {
     BookDetails bookDetails = bookDetailsService.findById(id);
-    ModelAndView modelAndView = new ModelAndView("reader_book");
+    ModelAndView modelAndView = new ModelAndView(viewPrefix + "reader_book");
     modelAndView.addObject("bookDetails", bookDetails);
 
     Optional<Book> book = getFirstAvailable(bookDetails);

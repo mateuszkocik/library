@@ -24,6 +24,7 @@ public class LibrarianController {
   private final ReaderService readerService;
   private final RentalService rentalService;
   private final BookDetailsService bookDetailsService;
+  private final String viewPrefix = "/librarian/";
 
   @Autowired
   public LibrarianController(ReaderService readerService, RentalService rentalService, BookDetailsService bookDetailsService){
@@ -34,7 +35,7 @@ public class LibrarianController {
 
   @GetMapping
   public String showLibrarianPage(){
-    return "librarian";
+    return viewPrefix + "librarian";
   }
 
   @GetMapping("/add-user")
@@ -43,7 +44,7 @@ public class LibrarianController {
     userDTO.setPassword(generateRandomPassword());
     model.addAttribute("user", userDTO);
 
-    return "add_user";
+    return viewPrefix + "add_user";
   }
 
   private String generateRandomPassword(){
@@ -54,7 +55,7 @@ public class LibrarianController {
   public ModelAndView registerUserAccount(
       @ModelAttribute("user") @Valid UserDTO userDto,
       BindingResult result) {
-    ModelAndView modelAndView = new ModelAndView("add_user", "user", userDto);
+    ModelAndView modelAndView = new ModelAndView(viewPrefix + "add_user", "user", userDto);
     if(result.hasErrors()) return modelAndView;
 
     try {
@@ -64,17 +65,8 @@ public class LibrarianController {
       return modelAndView;
     }
 
-    return new ModelAndView("/librarian");
+    return new ModelAndView(viewPrefix + "/librarian");
   }
-
-  @GetMapping("/check-profile")
-  public String showReaderProfile(@RequestParam(value = "readerEmail") String readerEmail, Model model){
-    Reader reader = readerService.getReaderByEmail(readerEmail);
-    model.addAttribute("reader", reader);
-
-    return "check_profile";
-  }
-
 
 //
 //  @GetMapping("/rent-book")
@@ -100,26 +92,16 @@ public class LibrarianController {
 //
 //  }
 
-  @GetMapping("/tasks")
-  public String showTasks() {
-    return "tasks";
-  }
-
-  @GetMapping("/add-book")
-  public String showAddBookForm() {
-    return "add-book";
-  }
-
   @GetMapping("/add-book-details")
   public String showAddBookDetailsForm(Model model) {
     model.addAttribute("bookDetails", new BookDetailsDTO());
-    return "add_book_detail";
+    return viewPrefix + "add_book_detail";
   }
 
   @PostMapping("/add-book-details")
   public ModelAndView addBookDetails(
           @ModelAttribute("bookDetails") @Valid BookDetailsDTO bookDetailsDTO, BindingResult result) {
-    ModelAndView modelAndView = new ModelAndView("add_book_detail", "bookDetails", bookDetailsDTO);
+    ModelAndView modelAndView = new ModelAndView(viewPrefix + "add_book_detail", "bookDetails", bookDetailsDTO);
     if(result.hasErrors()) return modelAndView;
 
     try {
@@ -129,6 +111,14 @@ public class LibrarianController {
       return modelAndView;
     }
 
-    return new ModelAndView("/librarian");
+    return new ModelAndView(viewPrefix + "/librarian");
+  }
+
+  @GetMapping("/readerProfile")
+  public ModelAndView showUser(@RequestParam(value = "userEmail") String userEmail) {
+    ModelAndView modelAndView = new ModelAndView(viewPrefix + "readerProfile");
+
+
+    return modelAndView;
   }
 }
