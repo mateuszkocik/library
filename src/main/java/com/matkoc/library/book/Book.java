@@ -24,4 +24,5 @@ public class Book extends BaseEntity {
   public boolean isAvailable(){
     return this.getBookStatus() == BookStatus.AVAILABLE;
   }
+  public boolean isReserved() {return this.getBookStatus() == BookStatus.RESERVED};
 }

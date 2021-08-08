@@ -1,5 +1,7 @@
 package com.matkoc.library.controller;
 
+import com.matkoc.library.book.Book;
+import com.matkoc.library.book.BookService;
 import com.matkoc.library.bookdetails.BookDetailsService;
 import com.matkoc.library.dto.BookDetailsDTO;
 import com.matkoc.library.dto.UserDTO;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/librarian")
@@ -32,6 +35,8 @@ public class LibrarianController {
   private BookDetailsService bookDetailsService;
   @Autowired
   private ReservationService reservationService;
+  @Autowired
+  private BookService bookService;
 
   @GetMapping
   public String showLibrarianPage(){
@@ -105,6 +110,21 @@ public class LibrarianController {
       @PathVariable(value = "id") Long id) {
     reservationService.acceptReservation(id);
     return buildCheckProfileMAV(readerEmail);
+  }
+
+  @PostMapping("/check-profile/{email}/rent-book/{id}")
+  public ModelAndView rentSpecificBook(@PathVariable(value = "email") String readerEmail, @PathVariable(value = "id") Long bookId) {
+    ModelAndView modelAndView = buildCheckProfileMAV(readerEmail);
+    Reader reader = readerService.getReaderByEmail(readerEmail);
+    Optional<Book> book = bookService.getBookById(bookId);
+    if(book.isEmpty()) return modelWithMessage(modelAndView, "Book with id: " + bookId + " does not exists.");
+
+    try{
+      rentalService.rentBook(book.get());
+    }
+
+
+    return modelAndView;
   }
 
   private ModelAndView buildCheckProfileMAV(String readerEmail) {
