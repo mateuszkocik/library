@@ -8,12 +8,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class RentalService{
 
+    @Autowired
     RentalRepository rentalRepository;
+    @Autowired
     BookService bookService;
 
-    @Autowired
-    public RentalService(RentalRepository rentalRepository, BookService bookService){
-        this.rentalRepository = rentalRepository;
-        this.bookService = bookService;
+    public Rental save(Rental rental) {
+        return rentalRepository.save(rental);
     }
 }

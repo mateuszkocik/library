@@ -7,6 +7,7 @@ import com.matkoc.library.exception.UserAlreadyExistException;
 import com.matkoc.library.reader.Reader;
 import com.matkoc.library.reader.ReaderService;
 import com.matkoc.library.rental.RentalService;
+import com.matkoc.library.reservation.ReservationService;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,17 +23,15 @@ import javax.validation.Valid;
 @RequestMapping("/librarian")
 public class LibrarianController {
 
-  private final ReaderService readerService;
-  private final RentalService rentalService;
-  private final BookDetailsService bookDetailsService;
   private final String viewPrefix = "/librarian/";
-
   @Autowired
-  public LibrarianController(ReaderService readerService, RentalService rentalService, BookDetailsService bookDetailsService){
-    this.readerService = readerService;
-    this.rentalService = rentalService;
-    this.bookDetailsService = bookDetailsService;
-  }
+  private ReaderService readerService;
+  @Autowired
+  private RentalService rentalService;
+  @Autowired
+  private BookDetailsService bookDetailsService;
+  @Autowired
+  private ReservationService reservationService;
 
   @GetMapping
   public String showLibrarianPage(){
@@ -69,30 +68,6 @@ public class LibrarianController {
     return new ModelAndView(viewPrefix + "/librarian");
   }
 
-//
-//  @GetMapping("/rent-book")
-//  public String showRentBookPage(Model model){
-//    RentalDTO rentalDTO = new RentalDTO();
-//    model.addAttribute("rental", rentalDTO);
-//
-//    return "rent_book";
-//  }
-//
-//  @PostMapping("/rent-book")
-//  public ModelAndView makeRental(@ModelAttribute("rental") @Valid RentalDTO rentalDTO, BindingResult result) {
-//    ModelAndView modelAndView = new ModelAndView("rent_book", "rental", rentalDTO);
-//
-//    if(result.hasErrors()) return modelAndView;
-//
-//    try {
-//      rentalService.makeNewRental(rentalDTO);
-//    } catch (UserAlreadyExistException e) {
-//      modelAndView.addObject("message", "An account for that username/email already exists.");
-//      return modelAndView;
-//    }
-//
-//  }
-
   @GetMapping("/add-book-details")
   public String showAddBookDetailsForm(Model model) {
     model.addAttribute("bookDetails", new BookDetailsDTO());
@@ -115,23 +90,30 @@ public class LibrarianController {
     return new ModelAndView(viewPrefix + "/librarian");
   }
 
-//  @GetMapping("/check-profile")
-//  public ModelAndView showCheckProfile() {
-//    return new ModelAndView(viewPrefix + "check_profile");
-//  }
-
   @GetMapping("/check-profile")
   public ModelAndView showReaderProfileDetails(@RequestParam(value = "email") String readerEmail) {
-    ModelAndView modelAndView = new ModelAndView(viewPrefix + "check_profile");
-    Reader reader = readerService.getReaderByEmail(readerEmail);
-    if (StringUtils.isNotBlank(readerEmail) && reader == null)
-      return modelWithMessage(
-          modelAndView, "Reader with email: " + readerEmail + " does not exists.");
-    modelAndView.addObject("reader", reader);
-    return modelAndView;
+    return buildCheckProfileMAV(readerEmail);
   }
 
   private ModelAndView modelWithMessage(ModelAndView modelAndView, String message){
     return modelAndView.addObject("message", message);
+  }
+
+  @PostMapping("/check-profile?email={email}/accept-reservation")
+  public ModelAndView acceptReservation(
+      @PathVariable(value = "email") String readerEmail,
+      @RequestParam(value = "id") Long id) {
+    reservationService.acceptReservation(id);
+    return buildCheckProfileMAV(readerEmail);
+  }
+
+  private ModelAndView buildCheckProfileMAV(String readerEmail) {
+    ModelAndView modelAndView = new ModelAndView(viewPrefix + "check_profile");
+    Reader reader = readerService.getReaderByEmail(readerEmail);
+    if (StringUtils.isNotBlank(readerEmail) && reader == null)
+      return modelWithMessage(
+              modelAndView, "Reader with email: " + readerEmail + " does not exists.");
+    modelAndView.addObject("reader", reader);
+    return modelAndView;
   }
 }

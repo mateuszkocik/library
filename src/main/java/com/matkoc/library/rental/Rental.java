@@ -28,4 +28,5 @@ public class Rental extends BaseEntity{
     LocalDate toDate;
     LocalDate returnDate;
     BigDecimal fee;
+    boolean finished;
 }

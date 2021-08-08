@@ -18,8 +18,8 @@
 <input type="button" value="Find reader" OnClick="buttonClick()"/>
 
 
-<div id="user_details_container" th:if="${reader}" th:object="${reader}">
-    <h3>User details</h3>
+<div id="reader_details_container" th:if="${reader}" th:object="${reader}">
+    <h3>Reader details</h3>
     <p th:text="${reader.getId()}"></p>
     <p th:text="${reader.getContactInformation().getEmail()}"></p>
     <p th:text="${reader.getFirstName()}"></p>
@@ -27,7 +27,18 @@
     <p th:text="${reader.getGender().name()}"></p>
     <p th:text="${reader.getContactInformation().getTelephoneNumber()}"></p>
 </div>
+<div id="reader_rentals"></div>
 
-
+<div id="reader_reservations" th:if="${reader != null and reader.getReservations() != null}">
+    <tr th:each="reservation : ${reader.getReservations()}">
+        <td th:text="${reservation.getBook().getBookDetails().getTitle()}"></td>
+        <td th:text="${reservation.getToDate()}"></td>
+        <td>
+            <form th:action="@{~/librarian/check-profile?email={e}/accept-reservation(id=${reservation.getId()}, e=${reader.getUser().getUsername()})}" method="post">
+                <button type="submit">Rent</button>
+            </form>
+        </td>
+    </tr>
+</div>
 </body>
 </html>
