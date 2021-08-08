@@ -24,9 +24,12 @@ public class Rental extends BaseEntity{
     @JoinColumn(name = "reader_id")
     Reader reader;
 
+    @Column(name = "from_date")
     LocalDate fromDate;
+    @Column(name = "to_date")
     LocalDate toDate;
+    @Column(name = "return_date")
     LocalDate returnDate;
-    BigDecimal fee;
+    @Column(name = "finished")
     boolean finished;
 }

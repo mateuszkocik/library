@@ -5,7 +5,7 @@
     <title>Title</title>
     <script language="javascript" type="text/javascript">
         function buttonClick(){
-            var url = "/librarian/check-profile?email=" + document.getElementById("email").value;
+            var url = "/librarian/check-profile/" + document.getElementById("email").value;
             window.location = url;
         }
     </script>
@@ -34,7 +34,7 @@
         <td th:text="${reservation.getBook().getBookDetails().getTitle()}"></td>
         <td th:text="${reservation.getToDate()}"></td>
         <td>
-            <form th:action="@{~/librarian/check-profile?email={e}/accept-reservation(id=${reservation.getId()}, e=${reader.getUser().getUsername()})}" method="post">
+            <form th:action="@{~/librarian/check-profile/{email}/accept-reservation/{id}(email=${reader.getUser().getUsername()}, id=${reservation.getId()})}" method="post">
                 <button type="submit">Rent</button>
             </form>
         </td>

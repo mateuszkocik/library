@@ -90,8 +90,8 @@ public class LibrarianController {
     return new ModelAndView(viewPrefix + "/librarian");
   }
 
-  @GetMapping("/check-profile")
-  public ModelAndView showReaderProfileDetails(@RequestParam(value = "email") String readerEmail) {
+  @GetMapping("/check-profile/{email}")
+  public ModelAndView showReaderProfileDetails(@PathVariable(value = "email") String readerEmail) {
     return buildCheckProfileMAV(readerEmail);
   }
 
@@ -99,10 +99,10 @@ public class LibrarianController {
     return modelAndView.addObject("message", message);
   }
 
-  @PostMapping("/check-profile?email={email}/accept-reservation")
+  @PostMapping("/check-profile/{email}/accept-reservation/{id}")
   public ModelAndView acceptReservation(
       @PathVariable(value = "email") String readerEmail,
-      @RequestParam(value = "id") Long id) {
+      @PathVariable(value = "id") Long id) {
     reservationService.acceptReservation(id);
     return buildCheckProfileMAV(readerEmail);
   }

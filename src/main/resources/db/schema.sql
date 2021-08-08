@@ -81,7 +81,7 @@ CREATE TABLE `rentals` (
     from_date DATE NOT NULL,
     to_date DATE NOT NULL,
     return_date DATE,
-    fee DECIMAL(10,2)
+    finished BOOLEAN NOT NULL
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 ALTER TABLE `rentals` ADD CONSTRAINT `rentals_fk1` FOREIGN KEY (book_id) REFERENCES `books` (id);

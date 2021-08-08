@@ -28,8 +28,8 @@ INSERT INTO `book_details` VALUES
 (3, 'zzzzzzzzzzz', 'oooooooo', 'iiiiii');
 
 INSERT INTO `books` VALUES
-(1, 1, 'RESERVED'),
-(2, 2, 'AVAILABLE'),
+(1, 1, 'BORROWED'),
+(2, 2, 'RESERVED'),
 (3,1, 'AVAILABLE');
 
 INSERT INTO `readers` VALUES
@@ -39,7 +39,7 @@ INSERT INTO `librarians` VALUES
 (1, 'librarian_name', 'librarian_lastname', 'WOMEN', '123456789', 'librarian@gmail.com');
 
 INSERT INTO `rentals` VALUES
-(1, 1, 1, '2021-07-20', '2021-08-20', NULL, NULL);
+(1, 1, 1, '2021-07-20', '2021-08-20', NULL, false);
 
 INSERT INTO `reservations` VALUES
-(1, 1, 1, '2021-10-10');
+(1, 2, 1, '2021-10-10');
