@@ -1,9 +1,9 @@
 package com.matkoc.library.controller;
 
-import com.matkoc.library.book.Book;
 import com.matkoc.library.book.BookService;
 import com.matkoc.library.bookdetails.BookDetailsService;
 import com.matkoc.library.dto.BookDetailsDTO;
+import com.matkoc.library.dto.IdDTO;
 import com.matkoc.library.dto.UserDTO;
 import com.matkoc.library.exception.UserAlreadyExistException;
 import com.matkoc.library.reader.Reader;
@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/librarian")
@@ -100,10 +99,6 @@ public class LibrarianController {
     return buildCheckProfileMAV(readerEmail);
   }
 
-  private ModelAndView modelWithMessage(ModelAndView modelAndView, String message){
-    return modelAndView.addObject("message", message);
-  }
-
   @PostMapping("/check-profile/{email}/accept-reservation/{id}")
   public ModelAndView acceptReservation(
       @PathVariable(value = "email") String readerEmail,
@@ -112,23 +107,28 @@ public class LibrarianController {
     return buildCheckProfileMAV(readerEmail);
   }
 
-  @PostMapping("/check-profile/{email}/rent-book/{id}")
-  public ModelAndView rentSpecificBook(@PathVariable(value = "email") String readerEmail, @PathVariable(value = "id") Long bookId) {
+  @PostMapping("/check-profile/{email}/rent-book")
+  public ModelAndView rentSpecificBook(@PathVariable(value = "email") String readerEmail, @ModelAttribute("inputBookId") @Valid IdDTO bookId) {
     ModelAndView modelAndView = buildCheckProfileMAV(readerEmail);
     Reader reader = readerService.getReaderByEmail(readerEmail);
-    Optional<Book> book = bookService.getBookById(bookId);
-    if(book.isEmpty()) return modelWithMessage(modelAndView, "Book with id: " + bookId + " does not exists.");
-
     try{
-      rentalService.rentBook(book.get());
+      rentalService.rentBook(bookId.getId(), reader);
+    }catch(Exception e) {
+      return modelWithMessage(modelAndView, e.getMessage());
     }
+    return modelWithMessage(modelAndView, "Book rented successfully");
+  }
+
+  @PostMapping("/check-profile/{email}/return-book")
 
 
-    return modelAndView;
+  private ModelAndView modelWithMessage(ModelAndView modelAndView, String message){
+    return modelAndView.addObject("message", message);
   }
 
   private ModelAndView buildCheckProfileMAV(String readerEmail) {
     ModelAndView modelAndView = new ModelAndView(viewPrefix + "check_profile");
+    modelAndView.addObject("inputBookId", new IdDTO());
     Reader reader = readerService.getReaderByEmail(readerEmail);
     if (StringUtils.isNotBlank(readerEmail) && reader == null)
       return modelWithMessage(

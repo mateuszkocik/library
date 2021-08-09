@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script language="javascript" type="text/javascript">
-        function buttonClick(){
+        function findReaderClick(){
             var url = "/librarian/check-profile/" + document.getElementById("email").value;
+            window.location = url;
+        }
+        function rentBookClick(){
+            var url = "/librarian/check-profile/" + document.getElementById("remail").textContent + "/rent-book/" + document.getElementById("bookId").value;
             window.location = url;
         }
     </script>
@@ -15,30 +19,58 @@
 <h1>Check profile</h1>
 <label for="email">Reader email</label>
 <input id = "email" type="email">
-<input type="button" value="Find reader" OnClick="buttonClick()"/>
+<input type="button" value="Find reader" OnClick="findReaderClick()"/>
 
 
 <div id="reader_details_container" th:if="${reader}" th:object="${reader}">
-    <h3>Reader details</h3>
-    <p th:text="${reader.getId()}"></p>
-    <p th:text="${reader.getContactInformation().getEmail()}"></p>
-    <p th:text="${reader.getFirstName()}"></p>
-    <p th:text="${reader.getLastName()}"></p>
-    <p th:text="${reader.getGender().name()}"></p>
-    <p th:text="${reader.getContactInformation().getTelephoneNumber()}"></p>
-</div>
-<div id="reader_rentals"></div>
+    Rent book
+    <div id="rent_book_from_id">
+        <form th:action="@{~/librarian/check-profile/{email}/rent-book(email=${reader.getUser().getUsername()})}" th:object="${inputBookId}" method="post">
+            <div>
+                <input th:field="*{id}" th:value="${inputBookId.getId()}"/>
+                <p th:each="error: ${#fields.errors('id')}"
+                   th:text="${error}">Validation error</p>
+            </div>
+            <button type="submit">Rent</button>
+        </form>
+    </div>
 
-<div id="reader_reservations" th:if="${reader != null and reader.getReservations() != null}">
-    <tr th:each="reservation : ${reader.getReservations()}">
-        <td th:text="${reservation.getBook().getBookDetails().getTitle()}"></td>
-        <td th:text="${reservation.getToDate()}"></td>
-        <td>
-            <form th:action="@{~/librarian/check-profile/{email}/accept-reservation/{id}(email=${reader.getUser().getUsername()}, id=${reservation.getId()})}" method="post">
-                <button type="submit">Rent</button>
-            </form>
-        </td>
-    </tr>
+    <div id="details">
+        <h3>Reader details</h3>
+        <p th:text="${reader.getId()}"></p>
+        <p id="remail" th:text="${reader.getContactInformation().getEmail()}" th:value="${reader.getContactInformation().getEmail()}"></p>
+        <p th:text="${reader.getFirstName()}"></p>
+        <p th:text="${reader.getLastName()}"></p>
+        <p th:text="${reader.getGender().name()}"></p>
+        <p th:text="${reader.getContactInformation().getTelephoneNumber()}"></p>
+    </div>
+
+
+    <div id="rentals" th:if="${reader.getRentals() != null}">
+        <tr th:each="rental : ${reader.getRentals()}">
+            <td th:text="${rental.getBook().getBookDetails().getTitle()}"></td>
+            <td th:text="${rental.getFromDate()}"></td>
+<!--            <td>-->
+<!--                <form th:action="@{~/librarian/check-profile/{email}/accept-reservation/{id}(email=${reader.getUser().getUsername()}, id=${reservation.getId()})}" method="post">-->
+<!--                    <button type="submit">Rent</button>-->
+<!--                </form>-->
+<!--            </td>-->
+        </tr>
+    </div>
+
+
+    <div id="reservations" th:if="${reader.getReservations() != null}">
+        <tr th:each="reservation : ${reader.getReservations()}">
+            <td th:text="${reservation.getBook().getBookDetails().getTitle()}"></td>
+            <td th:text="${reservation.getToDate()}"></td>
+            <td>
+                <form th:action="@{~/librarian/check-profile/{email}/accept-reservation/{id}(email=${reader.getUser().getUsername()}, id=${reservation.getId()})}" method="post">
+                    <button type="submit">Rent</button>
+                </form>
+            </td>
+        </tr>
+    </div>
 </div>
+
 </body>
 </html>

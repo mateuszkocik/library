@@ -19,7 +19,7 @@ import java.time.LocalDate;
 @Table(name = "reservations")
 public class Reservation extends BaseEntity{
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
     private Book book;
 
