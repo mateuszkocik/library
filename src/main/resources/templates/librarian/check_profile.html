@@ -8,10 +8,6 @@
             var url = "/librarian/check-profile/" + document.getElementById("email").value;
             window.location = url;
         }
-        function rentBookClick(){
-            var url = "/librarian/check-profile/" + document.getElementById("remail").textContent + "/rent-book/" + document.getElementById("bookId").value;
-            window.location = url;
-        }
     </script>
 </head>
 <body>
@@ -23,7 +19,8 @@
 
 
 <div id="reader_details_container" th:if="${reader}" th:object="${reader}">
-    Rent book
+
+    <br>Rent book<br>
     <div id="rent_book_from_id">
         <form th:action="@{~/librarian/check-profile/{email}/rent-book(email=${reader.getUser().getUsername()})}" th:object="${inputBookId}" method="post">
             <div>
@@ -45,20 +42,20 @@
         <p th:text="${reader.getContactInformation().getTelephoneNumber()}"></p>
     </div>
 
-
+    <br>Rentals<br>
     <div id="rentals" th:if="${reader.getRentals() != null}">
         <tr th:each="rental : ${reader.getRentals()}">
             <td th:text="${rental.getBook().getBookDetails().getTitle()}"></td>
             <td th:text="${rental.getFromDate()}"></td>
-<!--            <td>-->
-<!--                <form th:action="@{~/librarian/check-profile/{email}/accept-reservation/{id}(email=${reader.getUser().getUsername()}, id=${reservation.getId()})}" method="post">-->
-<!--                    <button type="submit">Rent</button>-->
-<!--                </form>-->
-<!--            </td>-->
+            <td th:if="${!rental.isFinished()}" >
+                <form th:action="@{~/librarian/check-profile/{email}/return-book/{id}(email=${reader.getUser().getUsername()}, id=${rental.getId()})}" method="post">
+                    <button type="submit">Return book</button>
+                </form>
+            </td>
         </tr>
     </div>
 
-
+    <br>Reservations<br>
     <div id="reservations" th:if="${reader.getReservations() != null}">
         <tr th:each="reservation : ${reader.getReservations()}">
             <td th:text="${reservation.getBook().getBookDetails().getTitle()}"></td>

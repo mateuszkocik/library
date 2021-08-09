@@ -16,16 +16,18 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 @Service
-public class RentalService{
+public class RentalService {
 
-    @Autowired
-    RentalRepository rentalRepository;
-    @Autowired
-    BookService bookService;
+  @Autowired RentalRepository rentalRepository;
+  @Autowired BookService bookService;
 
-    public Rental save(Rental rental) {
-        return rentalRepository.save(rental);
-    }
+  public Rental save(Rental rental) {
+    return rentalRepository.save(rental);
+  }
+
+  public Rental getRentalById(Long id) {
+    return rentalRepository.findById(id).get();
+  }
 
   public Rental rentBook(Long id, Reader reader)
       throws BookNotFoundException, ReaderReachedMaxRentalsException, BookNotAvailableException {
@@ -43,5 +45,12 @@ public class RentalService{
     book.setBookStatus(BookStatus.BORROWED);
     bookService.save(book);
     return rentalRepository.save(rental);
-    }
+  }
+
+  public void finishRental(Rental rental) {
+    rental.setFinished(true);
+    rental.setReturnDate(LocalDate.now());
+    rental.getBook().setBookStatus(BookStatus.AVAILABLE);
+    rentalRepository.save(rental);
+  }
 }

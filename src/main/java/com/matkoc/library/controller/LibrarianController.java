@@ -108,7 +108,9 @@ public class LibrarianController {
   }
 
   @PostMapping("/check-profile/{email}/rent-book")
-  public ModelAndView rentSpecificBook(@PathVariable(value = "email") String readerEmail, @ModelAttribute("inputBookId") @Valid IdDTO bookId) {
+  public ModelAndView rentSpecificBook(
+      @PathVariable(value = "email") String readerEmail,
+      @ModelAttribute("inputBookId") @Valid IdDTO bookId) {
     ModelAndView modelAndView = buildCheckProfileMAV(readerEmail);
     Reader reader = readerService.getReaderByEmail(readerEmail);
     try{
@@ -119,8 +121,13 @@ public class LibrarianController {
     return modelWithMessage(modelAndView, "Book rented successfully");
   }
 
-  @PostMapping("/check-profile/{email}/return-book")
-
+  @PostMapping("/check-profile/{email}/return-book/{rental-id}")
+  public ModelAndView returnBook(
+      @PathVariable(value = "email") String readerEmail,
+      @PathVariable(value = "rental-id") Long rentalId) {
+    rentalService.finishRental(rentalService.getRentalById(rentalId));
+    return buildCheckProfileMAV(readerEmail);
+  }
 
   private ModelAndView modelWithMessage(ModelAndView modelAndView, String message){
     return modelAndView.addObject("message", message);
