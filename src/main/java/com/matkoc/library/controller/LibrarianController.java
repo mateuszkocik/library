@@ -1,6 +1,9 @@
 package com.matkoc.library.controller;
 
+import com.matkoc.library.book.Book;
 import com.matkoc.library.book.BookService;
+import com.matkoc.library.book.BookStatus;
+import com.matkoc.library.bookdetails.BookDetails;
 import com.matkoc.library.bookdetails.BookDetailsService;
 import com.matkoc.library.dto.BookDetailsDTO;
 import com.matkoc.library.dto.IdDTO;
@@ -20,6 +23,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+
+import static com.matkoc.library.book.BookStatus.AVAILABLE;
 
 @Controller
 @RequestMapping("/librarian")
@@ -127,6 +135,46 @@ public class LibrarianController {
       @PathVariable(value = "rental-id") Long rentalId) {
     rentalService.finishRental(rentalService.getRentalById(rentalId));
     return buildCheckProfileMAV(readerEmail);
+  }
+
+  @GetMapping("/search")
+  public String showSearchPage(Model model){
+    model.addAttribute("results", new ArrayList<BookDetails>());
+    model.addAttribute("bookDetails", new BookDetailsDTO());
+    return viewPrefix + "search";
+  }
+
+  @PostMapping("/search")
+  public ModelAndView viewResults(
+          @ModelAttribute("results") ArrayList<BookDetails> results,
+          @ModelAttribute("bookDetails") BookDetailsDTO bookDetails) {
+    ModelAndView modelAndView = new ModelAndView(viewPrefix + "search");
+    results = bookDetailsService.findBookDetails(bookDetails);
+    modelAndView.addObject("results", results);
+    modelAndView.addObject("bookDetails", bookDetails);
+
+    return modelAndView;
+  }
+
+  @GetMapping("/bookdetails")
+  public ModelAndView showBookDetails(@RequestParam Long id){
+    ModelAndView modelAndView = new ModelAndView(viewPrefix + "librarian_book");
+    BookDetails bookDetails = bookDetailsService.findById(id);
+    modelAndView.addObject("bookDetails", bookDetails);
+    HashMap<BookStatus, Long> bookStatusCount = getBookStatusCount(bookDetails);
+    return modelAndView;
+  }
+
+  private HashMap<BookStatus, Long> getBookStatusCount(BookDetails bookDetails) {
+    Collection<Book> books = bookDetails.getBooks();
+    HashMap<BookStatus, Long> statusCount = new HashMap<>();
+    for(BookStatus bs : BookStatus.values()) {
+      Long amount = books.stream()
+              .filter(b -> b.getBookStatus().equals(bs))
+              .count();
+      statusCount.put(bs, amount);
+    }
+    return statusCount;
   }
 
   private ModelAndView modelWithMessage(ModelAndView modelAndView, String message){

@@ -7,14 +7,9 @@
 <body>
 <h1>Librarian</h1>
 <a href="/librarian/add-user">Add user</a>
-<a href="/librarian/rent-book">Rent book</a>
-<a href="/librarian/add-book">Add Book</a>
 <a href="/librarian/add-book-details">Add Book Details</a>
+<a href="/librarian/search">Search book</a>
 <a href="/librarian/check-profile/ /">Check profile</a>
 
-<form th:action="@{/librarian/check-profile}" method="get">
-    <input type="text" th:name="readerEmail"/>
-    <input type="submit"/>
-</form>
 </body>
 </html>
