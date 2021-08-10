@@ -15,5 +15,29 @@
     Publisher
     <span th:text="${bookDetails.getPublisher()}"></span>
 </div>
+<br>Delete whole book details<br>
+<div id="delete_book_details_container">
+    <form th:action="@{~/librarian/bookdetails/{bookDetailsId}/delete(bookDetailsId=${bookDetails.getId()})}" method="post">
+        <button type="submit">Delete book details</button>
+    </form>
+</div>
+<br>Delete book<br>
+<div id="delete_book_container">
+    <form th:action="@{~/librarian/bookdetails/{bookDetailsId}/delete-book(bookDetailsId=${bookDetails.getId()})}" th:object="${deleteBookId}" method="post">
+        <div>
+            <input th:field="*{id}" th:value="${deleteBookId.getId()}"/>
+            <p th:each="error: ${#fields.errors('id')}"
+               th:text="${error}">Validation error</p>
+        </div>
+        <button type="submit">Delete book with id</button>
+    </form>
+</div>
+<br>Add book<br>
+<div id="add_book__container">
+    <form th:action="@{~/librarian/bookdetails/{bookDetailsId}/add(bookDetailsId=${bookDetails.getId()})}" method="post">
+        <button type="submit">Add book</button>
+    </form>
+</div>
+
 </body>
 </html>

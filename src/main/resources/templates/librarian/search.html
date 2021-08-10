@@ -35,7 +35,7 @@
             <td th:text="${bD.getTitle()}"/>
             <td th:text="${bD.getGenre()}"/>
             <td th:text="${bD.getPublisher()}"/>
-            <td><a th:href="@{~/librarian/bookdetails(id=${bD.getId()})}">Details</a></td>
+            <td><a th:href="@{~/librarian/bookdetails/{id}(id=${bD.getId()})}">Details</a></td>
         </tr>
     </table>
 </div>

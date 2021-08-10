@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Table(name = "books")
 public class Book extends BaseEntity {
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JoinColumn(name = "bd_id")
   private BookDetails bookDetails;
 
@@ -22,7 +22,7 @@ public class Book extends BaseEntity {
   @Enumerated(EnumType.STRING)
   private BookStatus bookStatus;
 
-  @OneToOne(fetch = FetchType.LAZY, mappedBy = "book")
+  @OneToOne(fetch = FetchType.LAZY, mappedBy = "book", cascade = CascadeType.ALL)
   private Reservation reservation;
 
   public boolean isAvailable(){

@@ -27,8 +27,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
-import static com.matkoc.library.book.BookStatus.AVAILABLE;
-
 @Controller
 @RequestMapping("/librarian")
 public class LibrarianController {
@@ -138,10 +136,8 @@ public class LibrarianController {
   }
 
   @GetMapping("/search")
-  public String showSearchPage(Model model){
-    model.addAttribute("results", new ArrayList<BookDetails>());
-    model.addAttribute("bookDetails", new BookDetailsDTO());
-    return viewPrefix + "search";
+  public ModelAndView showSearchPage(){
+    return buildSearchMAV();
   }
 
   @PostMapping("/search")
@@ -156,11 +152,48 @@ public class LibrarianController {
     return modelAndView;
   }
 
-  @GetMapping("/bookdetails")
-  public ModelAndView showBookDetails(@RequestParam Long id){
+  @GetMapping("/bookdetails/{id}")
+  public ModelAndView showBookDetails(@PathVariable Long id){
+    return buildBookDetailsMAV(id);
+  }
+
+  @PostMapping("/bookdetails/{bookDetailsId}/delete")
+  public ModelAndView deleteBookDetails(@PathVariable(value = "bookDetailsId") Long bookDetailsId){
+    bookDetailsService.deleteById(bookDetailsId);
+    return buildSearchMAV();
+  }
+
+  @PostMapping("/bookdetails/{bookDetailsId}/delete-book")
+  public ModelAndView addBookToBookDetails(
+      @PathVariable Long bookDetailsId, @ModelAttribute("deleteBookId") @Valid IdDTO deleteBookId) {
+    ModelAndView modelAndView = buildBookDetailsMAV(bookDetailsId);
+    bookService.deleteBook(deleteBookId.getId());
+    return modelAndView.addObject("deletedBookId", deleteBookId.getId());
+  }
+
+  @PostMapping("/bookdetails/{id}/add")
+  public ModelAndView addBookToBookDetails(@PathVariable Long id) {
+    ModelAndView modelAndView = buildBookDetailsMAV(id);
+    Book newBook = bookService.addNewBookToBookDetails(bookDetailsService.findById(id));
+    return modelAndView.addObject("newBookId", newBook.getId());
+  }
+
+  private ModelAndView modelWithMessage(ModelAndView modelAndView, String message){
+    return modelAndView.addObject("message", message);
+  }
+
+  public ModelAndView buildSearchMAV() {
+    ModelAndView modelAndView = new ModelAndView(viewPrefix + "search");
+    modelAndView.addObject("results", new ArrayList<BookDetails>());
+    modelAndView.addObject("bookDetails", new BookDetailsDTO());
+    return modelAndView;
+  }
+
+  private ModelAndView buildBookDetailsMAV(Long bookDetailsId) {
     ModelAndView modelAndView = new ModelAndView(viewPrefix + "librarian_book");
-    BookDetails bookDetails = bookDetailsService.findById(id);
+    BookDetails bookDetails = bookDetailsService.findById(bookDetailsId);
     modelAndView.addObject("bookDetails", bookDetails);
+    modelAndView.addObject("deleteBookId", new IdDTO());
     HashMap<BookStatus, Long> bookStatusCount = getBookStatusCount(bookDetails);
     return modelAndView;
   }
@@ -175,10 +208,6 @@ public class LibrarianController {
       statusCount.put(bs, amount);
     }
     return statusCount;
-  }
-
-  private ModelAndView modelWithMessage(ModelAndView modelAndView, String message){
-    return modelAndView.addObject("message", message);
   }
 
   private ModelAndView buildCheckProfileMAV(String readerEmail) {

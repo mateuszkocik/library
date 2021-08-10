@@ -1,5 +1,6 @@
 package com.matkoc.library.book;
 
+import com.matkoc.library.bookdetails.BookDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,5 +23,16 @@ public class BookService {
 
   public Optional<Book> getBookById(Long id) {
     return bookRepository.findById(id);
+  }
+
+  public Book addNewBookToBookDetails(BookDetails bookDetails) {
+    Book book = new Book();
+    book.setBookDetails(bookDetails);
+    book.setBookStatus(BookStatus.AVAILABLE);
+    return bookRepository.save(book);
+  }
+
+  public void deleteBook(Long bookId){
+    bookRepository.deleteById(bookId);
   }
 }

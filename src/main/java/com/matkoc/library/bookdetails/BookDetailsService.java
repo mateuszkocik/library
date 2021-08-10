@@ -15,7 +15,7 @@ public class BookDetailsService {
     this.bookDetailsRepository = bookDetailsRepository;
   }
 
-  public BookDetails findById(Long id){
+  public BookDetails findById(Long id) {
     return bookDetailsRepository.findById(id).get();
   }
 
@@ -31,5 +31,9 @@ public class BookDetailsService {
     bookDetails.setGenre(bookDetailsDTO.getGenre());
     bookDetails.setPublisher(bookDetailsDTO.getPublisher());
     bookDetailsRepository.save(bookDetails);
+  }
+
+  public void deleteById(Long bookDetailsId) {
+    bookDetailsRepository.deleteById(bookDetailsId);
   }
 }
