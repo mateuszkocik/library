@@ -49,7 +49,7 @@ public class LoginController{
       }
       userDetailsService.activateUser(principal.getName(), passwordDTO.getPassword());
 
-      return new ModelAndView(viewPrefix + "/reader");
+      return new ModelAndView(viewPrefix + "/login");
   }
 
   private boolean passwordsAreNotMatching(PasswordDTO passwordDTO){

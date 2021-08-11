@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -15,9 +15,11 @@ import java.util.Set;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
   @Autowired private UserRepository userRepository;
-  @Autowired private PasswordEncoder passwordEncoder;
+  @Autowired private BCryptPasswordEncoder passwordEncoder;
   private final String ROLE_READER = "ROLE_READER";
   private final String ROLE_INACTIVE = "ROLE_INACTIVE";
+  private final String ROLE_INACTIVE_LIB = "ROLE_INACTIVE_LIB";
+  private final String ROLE_LIBRARIAN = "ROLE_LIBRARIAN";
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -27,10 +29,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
   }
 
   public User registerNewUser(UserDTO userDTO) throws UserAlreadyExistException {
-    System.out.println(userDTO.getPassword());
     if (userExistsInDatabase(userDTO.getEmail()))
       throw new UserAlreadyExistException(userDTO.getEmail());
-
     User user = new User();
     user.setUsername(userDTO.getEmail());
     user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
@@ -44,10 +44,26 @@ public class UserDetailsServiceImpl implements UserDetailsService {
   }
 
   public void activateUser(String email, String newPassword) {
-    User user = new User();
-    user.setUsername(email);
-    user.setAuthorities(Set.of(new Authority(email, ROLE_READER)));
-    user.setPassword(passwordEncoder.encode(newPassword));
-    userRepository.save(user);
+    User deletedUser = userRepository.getUserByUsername(email);
+    User newUser = new User();
+    String role = getUserRoleAfterActivation(deletedUser);
+    newUser.setUsername(email);
+    newUser.setAuthorities(Set.of(new Authority(email, role)));
+    newUser.setPassword(passwordEncoder.encode(newPassword));
+    userRepository.save(newUser);
   }
+
+  private String getUserRoleAfterActivation(User user) {
+    Set<Authority> authorities = user.getAuthorities();
+    for (Authority authority : authorities) {
+      String authorityString = authority.getAuthority();
+      if (authorityString.equals("ROLE_INACTIVE")) {
+        return ROLE_READER;
+      } else {
+        return ROLE_LIBRARIAN;
+      }
+    }
+    return null;
+  }
+
 }

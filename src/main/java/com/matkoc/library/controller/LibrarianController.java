@@ -53,7 +53,6 @@ public class LibrarianController {
     UserDTO userDTO = new UserDTO();
     userDTO.setPassword(generateRandomPassword());
     model.addAttribute("user", userDTO);
-
     return viewPrefix + "add_user";
   }
 

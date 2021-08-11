@@ -23,6 +23,7 @@ public class UserAuthenticationSuccessHandler implements AuthenticationSuccessHa
         boolean isInactive = false;
         boolean isLibrarian = false;
         boolean isReader = false;
+        boolean isInactive_lib = false;
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (GrantedAuthority grantedAuthority : authorities) {
             String authority = grantedAuthority.getAuthority();
@@ -30,9 +31,9 @@ public class UserAuthenticationSuccessHandler implements AuthenticationSuccessHa
                 isInactive = true;
             } else if (authority.equals("ROLE_LIBRARIAN")) {
                 isLibrarian = true;
-            } else {
+            } else if (authority.equals("ROLE_READER")){
                 isReader = true;
-            }
+            } else if (authority.equals("ROLE_INACTIVE_LIB"))
             break;
         }
 

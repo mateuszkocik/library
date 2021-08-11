@@ -22,9 +22,7 @@
                th:text="${error}">Validation error</p>
         </div>
         <div>
-            <input hidden="hidden" type="password" th:field="*{password}" th:value="${user.getPassword()}"/>
-            <p th:each="error : ${#fields.errors('password')}"
-               th:text="${error}">Validation error</p>
+            <input hidden="hidden" th:field="*{password}" th:value="${user.getPassword()}"/>
         </div>
         <div>
             <input th:field="*{gender}" th:value="${user.getGender()}"/>
@@ -36,6 +34,7 @@
             <p th:each="error : ${#fields.errors('telephoneNumber')}"
                th:text="${error}">Validation error</p>
         </div>
+
         <button type="submit">Add user</button>
     </form>
     <div>
