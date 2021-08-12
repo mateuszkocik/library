@@ -9,6 +9,7 @@ DELETE FROM `book_details`;
 DELETE FROM `readers`;
 DELETE FROM `tasks`;
 DELETE FROM `librarians`;
+DELETE FROM `managers`;
 DELETE FROM `authorities`;
 DELETE FROM `users`;
 
@@ -44,7 +45,33 @@ INSERT INTO `librarians` VALUES
 (1, 'librarian_name', 'librarian_lastname', 'WOMEN', '123456789', 'librarian@gmail.com');
 
 INSERT INTO `rentals` VALUES
-(1, 1, 1, '2021-07-20', '2021-08-20', NULL, false);
+(1, 1, 1, '2021-07-20', '2021-08-20', NULL, false),
+(2, 1, 1, '2021-08-20', '2021-08-20', NULL, false),
+(3, 1, 1, '2021-08-20', '2021-08-20', NULL, false),
+(4, 1, 1, '2021-08-20', '2021-08-20', NULL, false),
+(5, 1, 1, '2021-08-20', '2021-08-20', NULL, false),
+(6, 1, 1, '2021-08-20', '2021-08-20', NULL, false),
+(7, 1, 1, '2021-08-20', '2021-08-20', NULL, false),
+(8, 1, 1, '2021-06-20', '2021-08-20', NULL, false),
+(9, 1, 1, '2021-06-20', '2021-08-20', NULL, false),
+(10, 1, 1, '2021-06-20', '2021-08-20', NULL, false),
+(11, 1, 1, '2021-06-20', '2021-08-20', NULL, false),
+(12, 1, 1, '2021-06-20', '2021-08-20', NULL, false),
+(13, 1, 1, '2021-06-20', '2021-08-20', NULL, false),
+(14, 1, 1, '2021-06-20', '2021-08-20', NULL, false),
+(15, 1, 1, '2021-06-20', '2021-08-20', NULL, false),
+(16, 1, 1, '2021-06-20', '2021-08-20', NULL, false),
+(17, 1, 1, '2021-06-20', '2021-08-20', NULL, false),
+(18, 1, 1, '2021-06-20', '2021-08-20', NULL, false),
+(19, 1, 1, '2021-06-20', '2021-08-20', NULL, false),
+(20, 1, 1, '2021-06-20', '2021-08-20', NULL, false),
+(21, 1, 1, '2021-06-20', '2021-08-20', NULL, false),
+(22, 1, 1, '2021-06-20', '2021-08-20', NULL, false),
+(23, 1, 1, '2021-06-20', '2021-08-20', NULL, false),
+(24, 1, 1, '2021-06-20', '2021-08-20', NULL, false),
+(25, 1, 1, '2021-06-20', '2021-08-20', NULL, false),
+(26, 1, 1, '2021-06-20', '2021-08-20', NULL, false),
+(27, 1, 1, '2021-06-20', '2021-08-20', NULL, false);
 
 INSERT INTO `reservations` VALUES
 (1, 2, 1, '2021-10-10');

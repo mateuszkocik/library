@@ -13,6 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.Month;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -52,5 +57,19 @@ public class RentalService {
     rental.setReturnDate(LocalDate.now());
     rental.getBook().setBookStatus(BookStatus.AVAILABLE);
     rentalRepository.save(rental);
+  }
+
+  public Map<String, Long> getRentalAmountInPreviousYear() {
+    Map<String, Long> monthlyRentalCount = new HashMap<>();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY-MM");
+    LocalDate now = LocalDate.now();
+    for (int i = 0; i < 12; i++) {
+      LocalDate fromDate = now.minusMonths(i).withDayOfMonth(1);
+      LocalDate toDate = now.minusMonths(i).with(TemporalAdjusters.lastDayOfMonth());
+      monthlyRentalCount.put(
+          formatter.format(fromDate),
+          rentalRepository.getRentalsFromRange(fromDate, toDate));
+    }
+    return monthlyRentalCount;
   }
 }
