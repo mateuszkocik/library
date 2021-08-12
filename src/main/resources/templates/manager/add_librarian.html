@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="/manager/add-librarian" th:object="${librarian}" method="POST" enctype="utf8">
+    <div>
+        <input th:field="*{firstName}" th:value="${librarian.getFirstName()}"/>
+        <p th:each="error: ${#fields.errors('firstName')}"
+           th:text="${error}">Validation error</p>
+    </div>
+    <div>
+        <input th:field="*{lastName}" th:value="${librarian.getLastName()}"/>
+        <p th:each="error : ${#fields.errors('lastName')}"
+           th:text="${error}">Validation error</p>
+    </div>
+    <div>
+        <input th:field="*{email}" th:value="${librarian.getEmail()}"/>
+        <p th:each="error : ${#fields.errors('email')}"
+           th:text="${error}">Validation error</p>
+    </div>
+    <div>
+        <input hidden="hidden" th:field="*{password}" th:value="${librarian.getPassword()}"/>
+    </div>
+    <div>
+        <input th:field="*{gender}" th:value="${librarian.getGender()}"/>
+        <p th:each="error : ${#fields.errors('gender')}"
+           th:text="${error}">Validation error</p>
+    </div>
+    <div>
+        <input th:field="*{telephoneNumber}" th:value="${librarian.getTelephoneNumber()}"/>
+        <p th:each="error : ${#fields.errors('telephoneNumber')}"
+           th:text="${error}">Validation error</p>
+    </div>
+
+    <button type="submit">Add librarian</button>
+</form>
+<div>
+    <h2>Librarian temporary password</h2>
+    <h1 th:text="${librarian.getPassword()}"></h1>
+</div>
+</body>
+</html>

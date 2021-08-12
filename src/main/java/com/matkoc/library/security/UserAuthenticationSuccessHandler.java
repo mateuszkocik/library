@@ -23,17 +23,17 @@ public class UserAuthenticationSuccessHandler implements AuthenticationSuccessHa
         boolean isInactive = false;
         boolean isLibrarian = false;
         boolean isReader = false;
-        boolean isInactive_lib = false;
+
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (GrantedAuthority grantedAuthority : authorities) {
             String authority = grantedAuthority.getAuthority();
-            if (authority.equals("ROLE_INACTIVE")) {
+            if (authority.equals("ROLE_INACTIVE") || authority.equals("ROLE_INACTIVE_LIB")) {
                 isInactive = true;
             } else if (authority.equals("ROLE_LIBRARIAN")) {
                 isLibrarian = true;
             } else if (authority.equals("ROLE_READER")){
                 isReader = true;
-            } else if (authority.equals("ROLE_INACTIVE_LIB"))
+            }
             break;
         }
 
@@ -41,8 +41,10 @@ public class UserAuthenticationSuccessHandler implements AuthenticationSuccessHa
             redirectStrategy.sendRedirect(request, response, "/login/activate-account");
         }else if (isLibrarian){
             redirectStrategy.sendRedirect(request, response, "/librarian");
-        } else {
+        } else if (isReader){
             redirectStrategy.sendRedirect(request, response, "/reader");
+        } else {
+            redirectStrategy.sendRedirect(request, response, "/manager");
         }
     }
 }

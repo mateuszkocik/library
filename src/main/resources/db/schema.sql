@@ -86,3 +86,14 @@ CREATE TABLE `rentals` (
 
 ALTER TABLE `rentals` ADD CONSTRAINT `rentals_fk1` FOREIGN KEY (book_id) REFERENCES `books` (id);
 ALTER TABLE `rentals` ADD CONSTRAINT `rentals_fk2` FOREIGN KEY (reader_id) REFERENCES `readers` (id);
+
+CREATE TABLE `managers` (
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(64) NOT NULL,
+    last_name VARCHAR(64) NOT NULL,
+    gender ENUM('UNKNOWN', 'OTHER', 'WOMEN', 'MEN'),
+    telephone VARCHAR(9) NOT NULL,
+    email NVARCHAR(128) NOT NULL UNIQUE
+)ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+ALTER TABLE `managers` ADD CONSTRAINT `manager_fk1` FOREIGN KEY (email) REFERENCES `users` (username);

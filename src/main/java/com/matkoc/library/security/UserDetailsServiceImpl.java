@@ -39,6 +39,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     return userRepository.save(user);
   }
 
+  public User registerNewLibrarian(UserDTO userDTO) throws UserAlreadyExistException {
+    if (userExistsInDatabase(userDTO.getEmail()))
+      throw new UserAlreadyExistException(userDTO.getEmail());
+    User user = new User();
+    user.setUsername(userDTO.getEmail());
+    user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+    user.setAuthorities(Set.of(new Authority(userDTO.getEmail(), ROLE_INACTIVE_LIB)));
+
+    return userRepository.save(user);
+  }
+
   private boolean userExistsInDatabase(String email) {
     return userRepository.getUserByUsername(email) != null;
   }
