@@ -23,14 +23,7 @@ public class Reader extends Person {
     private List<Rental> rentals;
 
     public int getReaderRentalsSize() {
-        return rentals == null ? 0 : rentals.size();
-    }
-
-    public boolean readerAlreadyRentedBookWithBookDetails(BookDetails bookDetails) {
-        for(int i = 0; i < rentals.size(); i++) {
-            if(rentals.get(i).getBook().getBookDetails().getId().equals(bookDetails.getId()))
-                return true;
-        }
-        return false;
+        List<Rental> r = getRentals();
+        return r == null ? 0 : r.size();
     }
 }

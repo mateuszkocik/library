@@ -1,5 +1,6 @@
 package com.matkoc.library.controller;
 
+import com.matkoc.library.algorithm.GaleShapley;
 import com.matkoc.library.book.Book;
 import com.matkoc.library.book.BookService;
 import com.matkoc.library.book.BookStatus;
@@ -34,9 +35,12 @@ public class ReaderController {
   BookService bookService;
   @Autowired
   ReservationService reservationService;
+  @Autowired
+  GaleShapley galeShapley;
 
   @GetMapping
   public String showReaderPage() {
+    galeShapley.runAlgorithm();
     return viewPrefix + "reader";
   }
 
