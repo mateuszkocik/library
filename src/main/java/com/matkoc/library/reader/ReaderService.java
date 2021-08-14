@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.List;
 
 @Service
 public class ReaderService {
@@ -59,5 +60,9 @@ public class ReaderService {
 
   public Reader save(Reader reader) {
     return readerRepository.save(reader);
+  }
+
+  public List<Reader> getAllReaders() {
+    return readerRepository.findAll();
   }
 }

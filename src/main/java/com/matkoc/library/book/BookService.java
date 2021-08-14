@@ -4,7 +4,11 @@ import com.matkoc.library.bookdetails.BookDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class BookService {
@@ -35,4 +39,12 @@ public class BookService {
   public void deleteBook(Long bookId){
     bookRepository.deleteById(bookId);
   }
+
+  public List<Book> getRandomAvailableBooks(Long number) {
+    List<Book> allAvailableBooks =
+        bookRepository.findAll().stream().filter(Book::isAvailable).collect(Collectors.toList());
+    Collections.shuffle(allAvailableBooks);
+    return allAvailableBooks.stream().limit(number).collect(Collectors.toList());
+  }
+
 }
