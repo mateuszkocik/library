@@ -1,10 +1,13 @@
 package com.matkoc.library.bookdetails;
 
+import com.matkoc.library.bookdetails.author.Author;
+import com.matkoc.library.dto.AuthorDTO;
 import com.matkoc.library.dto.BookDetailsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class BookDetailsService {
@@ -30,7 +33,28 @@ public class BookDetailsService {
     bookDetails.setTitle(bookDetailsDTO.getTitle());
     bookDetails.setGenre(bookDetailsDTO.getGenre());
     bookDetails.setPublisher(bookDetailsDTO.getPublisher());
-    bookDetailsRepository.save(bookDetails);
+    BookDetails firstSave = bookDetailsRepository.save(bookDetails);
+    bookDetails.setAuthors(getAuthorsFromDTO(bookDetailsDTO, firstSave));
+    bookDetailsRepository.save(firstSave);
+  }
+
+  private List<Author> getAuthorsFromDTO(BookDetailsDTO bookDetailsDTO, BookDetails bookDetails) {
+    List<AuthorDTO> authors = bookDetailsDTO.getAuthors();
+    List<Author> resultAuthors = new ArrayList<>();
+    for(AuthorDTO authorDTO : authors) {
+      if (stringIsValid(authorDTO.getFirstName()) && stringIsValid(authorDTO.getLastName())) {
+        Author author = new Author();
+        author.setFirstName(authorDTO.getFirstName());
+        author.setLastName(authorDTO.getLastName());
+        author.setBookDetails(bookDetails);
+        resultAuthors.add(author);
+      }
+    }
+    return resultAuthors;
+  }
+
+  private boolean stringIsValid(String string) {
+    return string != null && !string.trim().equals("");
   }
 
   public void deleteById(Long bookDetailsId) {

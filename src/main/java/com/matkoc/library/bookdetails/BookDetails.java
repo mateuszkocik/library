@@ -1,12 +1,14 @@
 package com.matkoc.library.bookdetails;
 
 import com.matkoc.library.book.Book;
+import com.matkoc.library.bookdetails.author.Author;
 import com.matkoc.library.model.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -22,6 +24,9 @@ public class BookDetails extends BaseEntity {
 
   @Column(name = "publisher")
   private String publisher;
+
+  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "bookDetails")
+  private Collection<Author> authors;
 
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "bookDetails")
   private Collection<Book> books;

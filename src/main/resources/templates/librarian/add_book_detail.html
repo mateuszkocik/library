@@ -7,21 +7,30 @@
 <body>
 <form action="/librarian/add-book-details" th:object="${bookDetails}" method="POST" enctype="utf8">
     <div>
+        Title
         <input th:field="*{title}" th:value="${bookDetails.getTitle()}"/>
         <p th:each="error: ${#fields.errors('title')}"
            th:text="${error}">Validation error</p>
     </div>
     <div>
+        Genre
         <input th:field="*{genre}" th:value="${bookDetails.getGenre()}"/>
         <p th:each="error : ${#fields.errors('genre')}"
            th:text="${error}">Validation error</p>
     </div>
     <div>
+        Publisher
         <input th:field="*{publisher}" th:value="${bookDetails.getPublisher()}"/>
         <p th:each="error : ${#fields.errors('publisher')}"
            th:text="${error}">Validation error</p>
     </div>
-
+    <div>
+        Authors
+        <div th:each="author, itemStat : *{authors}">
+            <input th:field="*{authors[__${itemStat.index}__].firstName}" />
+            <input th:field="*{authors[__${itemStat.index}__].lastName}" />
+        </div>
+    </div>
     <button type="submit">Add book details</button>
 </form>
 </body>

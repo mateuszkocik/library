@@ -22,6 +22,13 @@ CREATE TABLE `book_details` (
     publisher VARCHAR(128) NOT NULL
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE `authors` (
+	bd_id INT NOT NULL,
+    first_name VARCHAR(64) NOT NULL,
+    last_name VARCHAR(64) NOT NULL
+);
+ALTER TABLE `authors` ADD CONSTRAINT `authors_fk1` FOREIGN KEY (bd_id) REFERENCES `book_details` (id);
+
 CREATE TABLE `books` (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     bd_id INT NOT NULL,
