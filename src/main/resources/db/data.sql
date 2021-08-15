@@ -55,7 +55,8 @@ INSERT INTO `books` VALUES
 (5,4, 'AVAILABLE'),
 (6,5, 'AVAILABLE'),
 (7,6, 'AVAILABLE'),
-(8,3, 'AVAILABLE');
+(8,3, 'AVAILABLE'),
+(9,2, 'AVAILABLE');
 
 INSERT INTO `managers` VALUES
 (1, 'manager_name', 'manager_lastname', 'MEN', '123456789', 'manager@gmail.com');

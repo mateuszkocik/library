@@ -1,4 +1,4 @@
-package com.matkoc.library.algorithm;
+package com.matkoc.library.tasks;
 
 import com.matkoc.library.book.Book;
 import com.matkoc.library.book.BookService;
@@ -7,13 +7,15 @@ import com.matkoc.library.reader.Reader;
 import com.matkoc.library.reader.ReaderService;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
-public class GaleShapley {
+public class GaleShapley{
 
   @Autowired ReaderService readerService;
   @Autowired BookService bookService;
@@ -23,9 +25,20 @@ public class GaleShapley {
   List<Book> books;
   Long[][] readersPref;
   Long[][] booksPref;
-  HashMap<Reader, Book> matches;
+  HashMap<Long, Long> matches;
 
-  public void initialize() {
+  @Transactional
+  @Scheduled(cron = "15 * * * * *")
+  public void runAlgorithm(){
+    initialize();
+    fillMatchesFromIndexes(findMatchesIndexes());
+  }
+
+  public Long getBookSuggestionIdForReader(Reader reader) {
+    return matches.get(reader.getId());
+  }
+
+  private void initialize() {
     readers = readerService.getAllReaders();
     size = readers.size();
     books = bookService.getRandomAvailableBooks((long) size);
@@ -36,16 +49,11 @@ public class GaleShapley {
     matches = new HashMap<>();
   }
 
-  public void runAlgorithm() {
-    initialize();
-    fillMatchesFromIndexes(findMatchesIndexes());
-  }
-
   private void fillMatchesFromIndexes(HashMap<Integer, Integer> indexes) {
-    indexes.forEach((k, v) -> matches.put(readers.get(v), books.get(k)));
+    indexes.forEach((k, v) -> matches.put(readers.get(v).getId(), books.get(k).getId()));
   }
 
-  public HashMap<Integer, Integer> findMatchesIndexes() {
+  private HashMap<Integer, Integer> findMatchesIndexes() {
     HashMap<Integer, Integer> matchesIndexes = new HashMap<>();
     for (int i = 0; i < size; i++) {
       matchesIndexes.put(i, null);
@@ -82,7 +90,7 @@ public class GaleShapley {
     return matchesIndexes;
   }
 
-  boolean willChangePartner(int unmatchedReader, int alreadyMatchedReader, int currentBook) {
+  private boolean willChangePartner(int unmatchedReader, int alreadyMatchedReader, int currentBook) {
     int pref_unmatchedReader = -1;
     int pref_alreadyMatchedReader = -1;
     for (int i = 0; i < booksPref[currentBook].length; i++) {
@@ -117,7 +125,6 @@ public class GaleShapley {
             .collect(Collectors.toSet());
 
     if (rentedBooksDetails.contains(bookDetails)) return score;
-    System.out.println("zzz");
     if (onSetIsBookWithGenre(rentedBooksDetails, bookDetails.getGenre())) score += 0.25;
     if (onSetIsBookWithPublisher(rentedBooksDetails, bookDetails.getPublisher())) score += 0.5;
     // zrobic wydawnictwo i ew data

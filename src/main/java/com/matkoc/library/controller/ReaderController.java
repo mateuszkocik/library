@@ -1,6 +1,6 @@
 package com.matkoc.library.controller;
 
-import com.matkoc.library.algorithm.GaleShapley;
+import com.matkoc.library.tasks.GaleShapley;
 import com.matkoc.library.book.Book;
 import com.matkoc.library.book.BookService;
 import com.matkoc.library.book.BookStatus;
@@ -40,7 +40,6 @@ public class ReaderController {
 
   @GetMapping
   public String showReaderPage() {
-    galeShapley.runAlgorithm();
     return viewPrefix + "reader";
   }
 
@@ -48,6 +47,10 @@ public class ReaderController {
   public String showProfile(Model model, Principal principal) {
     Reader reader = readerService.getReaderByEmail(principal.getName());
     model.addAttribute("reader", reader);
+    Long suggestedBookId = galeShapley.getBookSuggestionIdForReader(reader);
+    Optional<Book> suggestedBook = bookService.getBookById(suggestedBookId);
+    if(suggestedBook.isPresent())
+      model.addAttribute("suggestedBook", suggestedBook);
     return viewPrefix + "profile";
   }
 
