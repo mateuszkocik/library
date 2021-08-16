@@ -1,0 +1,19 @@
+#temppass_desc {
+    font-family: "DejaVu Sans Mono";
+    font-size: xx-large;
+}
+
+#temppass {
+    color: red;
+    font-weight: bold;
+    font-family: Jamrul;
+    font-size: xxx-large;
+}
+
+#add_user_button {
+    width: 120px;
+    height: 70px;
+    font-size: large;
+    font-family: "DejaVu Sans Mono";
+
+}

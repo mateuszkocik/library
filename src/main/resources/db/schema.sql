@@ -41,30 +41,18 @@ CREATE TABLE `librarians` (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(64) NOT NULL,
     last_name VARCHAR(64) NOT NULL,
-    -- birth_date DATE NOT NULL,
-    gender ENUM('UNKNOWN', 'OTHER', 'WOMEN', 'MEN'),
+    gender ENUM('UNKNOWN', 'WOMAN', 'MAN'),
     telephone VARCHAR(9) NOT NULL,
     email NVARCHAR(128) NOT NULL UNIQUE
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 ALTER TABLE `librarians` ADD CONSTRAINT `librarian_fk1` FOREIGN KEY (email) REFERENCES `users` (username);
 
-CREATE TABLE `tasks` (
-	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    librarian_id INT NOT NULL,
-	status ENUM('DONE', 'UNDONE', 'PROCESSING'),
-    description NVARCHAR(512),
-    deadline DATE
-)ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-ALTER TABLE `tasks` ADD CONSTRAINT `tasks_fk1` FOREIGN KEY (librarian_id) REFERENCES `librarians` (id);
-
 CREATE TABLE `readers` (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(64) NOT NULL,
     last_name VARCHAR(64) NOT NULL,
-    -- birth_date DATE NOT NULL,
-    gender ENUM('UNKNOWN', 'OTHER', 'WOMEN', 'MEN'),
+    gender ENUM('UNKNOWN', 'WOMAN', 'MAN'),
     telephone VARCHAR(9) NOT NULL,
     email NVARCHAR(128) NOT NULL UNIQUE
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -98,7 +86,7 @@ CREATE TABLE `managers` (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(64) NOT NULL,
     last_name VARCHAR(64) NOT NULL,
-    gender ENUM('UNKNOWN', 'OTHER', 'WOMEN', 'MEN'),
+    gender ENUM('UNKNOWN', 'WOMAN', 'MAN'),
     telephone VARCHAR(9) NOT NULL,
     email NVARCHAR(128) NOT NULL UNIQUE
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;

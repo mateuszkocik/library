@@ -7,7 +7,6 @@ DELETE FROM `reservations`;
 DELETE FROM `books`;
 DELETE FROM `book_details`;
 DELETE FROM `readers`;
-DELETE FROM `tasks`;
 DELETE FROM `librarians`;
 DELETE FROM `managers`;
 DELETE FROM `authorities`;
@@ -59,16 +58,16 @@ INSERT INTO `books` VALUES
 (9,2, 'AVAILABLE');
 
 INSERT INTO `managers` VALUES
-(1, 'manager_name', 'manager_lastname', 'MEN', '123456789', 'manager@gmail.com');
+(1, 'manager_name', 'manager_lastname', 'MAN', '123456789', 'manager@gmail.com');
 
 INSERT INTO `readers` VALUES
-(1, 'test123_name', 'test_123_lastname', 'MEN', '123456789', 'test123@gmail.com'),
-(2, 'test1', 'test1', 'MEN', '123456789', 'test1@gmail.com'),
-(3, 'test2', 'test2', 'MEN', '123456789', 'test2@gmail.com'),
-(4, 'test3', 'test3', 'MEN', '123456789', 'test3@gmail.com');
+(1, 'test123_name', 'test_123_lastname', 'MAN', '123456789', 'test123@gmail.com'),
+(2, 'test1', 'test1', 'MAN', '123456789', 'test1@gmail.com'),
+(3, 'test2', 'test2', 'MAN', '123456789', 'test2@gmail.com'),
+(4, 'test3', 'test3', 'MAN', '123456789', 'test3@gmail.com');
 
 INSERT INTO `librarians` VALUES
-(1, 'librarian_name', 'librarian_lastname', 'WOMEN', '123456789', 'librarian@gmail.com');
+(1, 'librarian_name', 'librarian_lastname', 'WOMAN', '123456789', 'librarian@gmail.com');
 
 INSERT INTO `rentals` VALUES
 (1, 1, 1, '2021-07-20', '2021-08-20', NULL, false),

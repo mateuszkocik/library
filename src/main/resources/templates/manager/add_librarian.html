@@ -2,44 +2,77 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Add Librarian</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/add_user.css">
 </head>
 <body>
-<form action="/manager/add-librarian" th:object="${librarian}" method="POST" enctype="utf8">
-    <div>
-        <input th:field="*{firstName}" th:value="${librarian.getFirstName()}"/>
-        <p th:each="error: ${#fields.errors('firstName')}"
-           th:text="${error}">Validation error</p>
+<div class="container-fluid">
+    <div class="container">
+        <form action="/manager/add-librarian" th:object="${librarian}" method="POST" enctype="utf8">
+            <div class="form-group">
+                <fieldset>
+                    <legend>Add new user</legend>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input id="email" class="form-control" th:field="*{email}" th:value="${librarian.getEmail()}" placeholder="Email"/>
+                        <p th:each="error : ${#fields.errors('email')}"
+                           th:text="${error}">Validation error</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="first_name">First Name</label>
+                        <input id="first_name" class="form-control" th:field="*{firstName}" th:value="${librarian.getFirstName()}" placeholder="First Name"/>
+                        <p th:each="error: ${#fields.errors('firstName')}"
+                           th:text="${error}">Validation error</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="last_name">Last Name</label>
+                        <input id="last_name" class="form-control" th:field="*{lastName}" th:value="${librarian.getLastName()}" placeholder="Last Name"/>
+                        <p th:each="error : ${#fields.errors('lastName')}"
+                           th:text="${error}">Validation error</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="telephone_number">Telephone Number</label>
+                        <input id="telephone_number" class="form-control" th:field="*{telephoneNumber}" th:value="${librarian.getTelephoneNumber()}" placeholder="Telephone Number"/>
+                        <p th:each="error : ${#fields.errors('telephoneNumber')}"
+                           th:text="${error}">Validation error</p>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="unknowng" value="UNKNOWN" checked th:field="*{gender}">
+                            <label class="form-check-label" for="unknowng">Unknown</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="womang" value="WOMAN" th:field="*{gender}">
+                            <label class="form-check-label" for="womang">Woman</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="mang" value="MAN" th:field="*{gender}">
+                            <label class="form-check-label" for="mang">Man</label>
+                        </div>
+                        <p th:each="error : ${#fields.errors('gender')}"
+                           th:text="${error}">Validation error</p>
+                    </div>
+                    <div>
+                        <input hidden="hidden" th:field="*{password}" th:value="${librarian.getPassword()}"/>
+                    </div>
+                    <div class="row justify-content-center">
+                        <p id="temppass_desc">Temporary password</p>
+                    </div>
+                    <div class="row justify-content-center">
+                        <p id="temppass" th:text="${librarian.getPassword()}"></p>
+                    </div>
+                    <div class="row justify-content-center">
+                        <button id="add_user_button" class="btn-primary" type="submit">Add Librarian</button>
+                    </div>
+                </fieldset>
+            </div>
+        </form>
     </div>
-    <div>
-        <input th:field="*{lastName}" th:value="${librarian.getLastName()}"/>
-        <p th:each="error : ${#fields.errors('lastName')}"
-           th:text="${error}">Validation error</p>
-    </div>
-    <div>
-        <input th:field="*{email}" th:value="${librarian.getEmail()}"/>
-        <p th:each="error : ${#fields.errors('email')}"
-           th:text="${error}">Validation error</p>
-    </div>
-    <div>
-        <input hidden="hidden" th:field="*{password}" th:value="${librarian.getPassword()}"/>
-    </div>
-    <div>
-        <input th:field="*{gender}" th:value="${librarian.getGender()}"/>
-        <p th:each="error : ${#fields.errors('gender')}"
-           th:text="${error}">Validation error</p>
-    </div>
-    <div>
-        <input th:field="*{telephoneNumber}" th:value="${librarian.getTelephoneNumber()}"/>
-        <p th:each="error : ${#fields.errors('telephoneNumber')}"
-           th:text="${error}">Validation error</p>
-    </div>
-
-    <button type="submit">Add librarian</button>
-</form>
-<div>
-    <h2>Librarian temporary password</h2>
-    <h1 th:text="${librarian.getPassword()}"></h1>
 </div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 </html>

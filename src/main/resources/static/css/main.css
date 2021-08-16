@@ -20,7 +20,9 @@ body {
 legend {
     font-family: "DejaVu Sans Light";
     font-size: x-large;
+    font-weight: bold;
     text-align: center;
+    margin-bottom: 50px;
 }
 
 label {
@@ -37,4 +39,8 @@ label {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.form-group > p {
+    color: red;
 }
