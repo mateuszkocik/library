@@ -1,0 +1,33 @@
+body {
+    background-color:  #5bc0de;
+}
+.container-fluid {
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 50px;
+    margin: 50px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.container {
+    padding: 100px;
+    background-color: #f0efeb;
+    object-fit: cover;
+    border: 2px solid black;
+    border-radius: 20px;
+    width: auto;
+}
+
+legend {
+    font-family: "DejaVu Sans Light";
+    font-size: x-large;
+    text-align: center;
+}
+
+label {
+    font-family: "DejaVu Sans Mono";
+}

@@ -41,6 +41,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
     http.csrf().disable()
             .authorizeRequests()
+            .antMatchers("/js/**", "/css/**").permitAll()
             .antMatchers("/librarian/**").hasRole("LIBRARIAN")
             .antMatchers("/reader/**").hasRole("READER")
             .antMatchers("/login/activate-account").hasAnyRole("INACTIVE", "INACTIVE_LIB")
