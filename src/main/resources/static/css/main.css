@@ -5,12 +5,7 @@ body {
     min-height: 100%;
     display: flex;
     align-items: center;
-    padding: 50px;
-    margin: 50px;
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
 }
 
 .container {
@@ -30,4 +25,16 @@ legend {
 
 label {
     font-family: "DejaVu Sans Mono";
+}
+
+.navbutton {
+    width: 200px;
+    height: 200px;
+    font-family: "DejaVu Sans Mono";
+    font-size: xx-large;
+    margin: 10px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
