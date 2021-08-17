@@ -13,7 +13,7 @@
         <form action="/manager/add-librarian" th:object="${librarian}" method="POST" enctype="utf8">
             <div class="form-group">
                 <fieldset>
-                    <legend>Add new user</legend>
+                    <legend>Add new librarian</legend>
                     <div class="form-group">
                         <label for="email">Email</label>
                         <input id="email" class="form-control" th:field="*{email}" th:value="${librarian.getEmail()}" placeholder="Email"/>

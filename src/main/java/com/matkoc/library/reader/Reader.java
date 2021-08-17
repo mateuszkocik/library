@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -25,5 +26,9 @@ public class Reader extends Person {
     public int getReaderRentalsSize() {
         List<Rental> r = getRentals();
         return r == null ? 0 : r.size();
+    }
+
+    public List<Rental> getActiveRentals() {
+        return getRentals().stream().filter(r -> !r.isFinished()).collect(Collectors.toList());
     }
 }

@@ -5,7 +5,7 @@ body {
     min-height: 100%;
     display: flex;
     align-items: center;
-    position: fixed;
+    flex-direction: column;
 }
 
 .container {
@@ -15,6 +15,8 @@ body {
     border: 2px solid black;
     border-radius: 20px;
     width: auto;
+    margin-top: 100px;
+    margin-bottom: 100px;
 }
 
 legend {

@@ -36,4 +36,8 @@ public class Rental extends BaseEntity{
     LocalDate returnDate;
     @Column(name = "finished")
     boolean finished;
+
+    public boolean isLate() {
+        return LocalDate.now().isAfter(toDate);
+    }
 }

@@ -2,7 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Check Profile</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/check_profile.css">
     <script language="javascript" type="text/javascript">
         function findReaderClick(){
             var url = "/librarian/check-profile/" + document.getElementById("email").value;
@@ -11,63 +14,98 @@
     </script>
 </head>
 <body>
-<span th:if="${message}" th:text="${message}"></span>
-<h1>Check profile</h1>
-<label for="email">Reader email</label>
-<input id = "email" type="email">
-<input type="button" value="Find reader" OnClick="findReaderClick()"/>
 
 
-<div id="reader_details_container" th:if="${reader}" th:object="${reader}">
+<div class="container-fluid">
 
-    <br>Rent book<br>
-    <div id="rent_book_from_id">
-        <form th:action="@{~/librarian/check-profile/{email}/rent-book(email=${reader.getUser().getUsername()})}" th:object="${inputBookId}" method="post">
-            <div>
-                <input th:field="*{id}" th:value="${inputBookId.getId()}"/>
-                <p th:each="error: ${#fields.errors('id')}"
-                   th:text="${error}">Validation error</p>
+
+    <div id="check_profile_cont" class="container">
+        <div class="alert alert-danger col-xs-offset-1 col-xs-10" th:if="${message}" th:text="${message}"></div>
+        <h2>Check Profile</h2>
+        <div class="form-group">
+            <label for="email">Reader Email</label>
+            <input type="email" id="email" class="form-control form-control-lg" placeholder="Email"/>
+        </div>
+        <input id="find_reader_btn" type="button" class="btn-primary btn-lg" value="Find" OnClick="findReaderClick()"/>
+    </div>
+
+
+    <div id="reader_details_cont" class="container" th:if="${reader}" th:object="${reader}" style="margin-top: 30px">
+
+        <div id="details">
+            <h2>Reader Details</h2>
+            <p th:text="*{firstName} + ' ' + *{lastName}"></p>
+            <p th:text="*{contactInformation.getEmail()}"></p>
+            <p th:text="*{contactInformation.getTelephoneNumber()}"></p>
+        </div>
+
+
+        <div id="rent_book">
+            <h2>Rent Book</h2>
+            <form th:action="@{~/librarian/check-profile/{email}/rent-book(email=${reader.getUser().getUsername()})}" th:object="${inputBookId}" method="post">
+                <div class="form-group">
+                    <input th:field="*{id}" class="form-control form-control-lg" th:value="${inputBookId.getId()}" placeholder="Book Id e.g. 1999"/>
+                    <p th:each="error: ${#fields.errors('id')}"
+                       th:text="${error}">Validation error</p>
+                </div>
+                <button type="submit" class="btn-primary btn-lg">Rent</button>
+            </form>
+        </div>
+
+
+        <div id="rentals" th:if="${reader.getActiveRentals() != null}">
+            <h2>Rentals</h2>
+            <table class="table table-responsive-lg table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Book ID</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">From</th>
+                        <th scope="col">To</th>
+                        <th scope="col">Return</th>
+                    </tr>
+                </thead>
+                <tr th:class="${rental.isLate() ? 'table-danger' : ''}" th:each="rental : ${reader.getActiveRentals()}">
+                    <td th:text="${rental.getBook().getId()}"></td>
+                    <td th:text="${rental.getBook().getBookDetails().getTitle()}"></td>
+                    <td th:text="${rental.getFromDate()}"></td>
+                    <td th:text="${rental.getToDate()}"></td>
+                    <td th:if="${!rental.isFinished()}">
+                        <form th:action="@{~/librarian/check-profile/{email}/return-book/{id}(email=${reader.getUser().getUsername()}, id=${rental.getId()})}"
+                              method="post">
+                            <button type="submit" class="btn-primary">Return</button>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+            <div id="reservations" th:if="${reader.getReservations() != null}">
+                <h2>Reservations</h2>
+                <table class="table table-responsive-lg table-hover">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Book ID</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Rent</th>
+                    </tr>
+                    <tr th:each="reservation : ${reader.getReservations()}">
+                        <td th:text="${reservation.getBook().getId()}"></td>
+                        <td th:text="${reservation.getBook().getBookDetails().getTitle()}"></td>
+                        <td>
+                            <form th:action="@{~/librarian/check-profile/{email}/accept-reservation/{id}(email=${reader.getUser().getUsername()}, id=${reservation.getId()})}" method="post">
+                                <button type="submit" class="btn-primary">Rent</button>
+                            </form>
+                        </td>
+                    </tr>
+                </table>
             </div>
-            <button type="submit">Rent</button>
-        </form>
-    </div>
-
-    <div id="details">
-        <h3>Reader details</h3>
-        <p th:text="${reader.getId()}"></p>
-        <p id="remail" th:text="${reader.getContactInformation().getEmail()}" th:value="${reader.getContactInformation().getEmail()}"></p>
-        <p th:text="${reader.getFirstName()}"></p>
-        <p th:text="${reader.getLastName()}"></p>
-        <p th:text="${reader.getGender().name()}"></p>
-        <p th:text="${reader.getContactInformation().getTelephoneNumber()}"></p>
-    </div>
-
-    <br>Rentals<br>
-    <div id="rentals" th:if="${reader.getRentals() != null}">
-        <tr th:each="rental : ${reader.getRentals()}">
-            <td th:text="${rental.getBook().getBookDetails().getTitle()}"></td>
-            <td th:text="${rental.getFromDate()}"></td>
-            <td th:if="${!rental.isFinished()}" >
-                <form th:action="@{~/librarian/check-profile/{email}/return-book/{id}(email=${reader.getUser().getUsername()}, id=${rental.getId()})}" method="post">
-                    <button type="submit">Return book</button>
-                </form>
-            </td>
-        </tr>
-    </div>
-
-    <br>Reservations<br>
-    <div id="reservations" th:if="${reader.getReservations() != null}">
-        <tr th:each="reservation : ${reader.getReservations()}">
-            <td th:text="${reservation.getBook().getBookDetails().getTitle()}"></td>
-            <td th:text="${reservation.getToDate()}"></td>
-            <td>
-                <form th:action="@{~/librarian/check-profile/{email}/accept-reservation/{id}(email=${reader.getUser().getUsername()}, id=${reservation.getId()})}" method="post">
-                    <button type="submit">Rent</button>
-                </form>
-            </td>
-        </tr>
+        </div>
     </div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 </html>
