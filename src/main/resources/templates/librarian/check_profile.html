@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+<!DOCTYPE html><link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/check_profile.css">
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -62,20 +64,13 @@
                         <th scope="col">Title</th>
                         <th scope="col">From</th>
                         <th scope="col">To</th>
-                        <th scope="col">Return</th>
                     </tr>
                 </thead>
-                <tr th:class="${rental.isLate() ? 'table-danger' : ''}" th:each="rental : ${reader.getActiveRentals()}">
+                <tr th:class="${rental.isLate() ? 'table-danger' : 'table-warning'}" th:each="rental : ${reader.getActiveRentals()}">
                     <td th:text="${rental.getBook().getId()}"></td>
                     <td th:text="${rental.getBook().getBookDetails().getTitle()}"></td>
                     <td th:text="${rental.getFromDate()}"></td>
                     <td th:text="${rental.getToDate()}"></td>
-                    <td th:if="${!rental.isFinished()}">
-                        <form th:action="@{~/librarian/check-profile/{email}/return-book/{id}(email=${reader.getUser().getUsername()}, id=${rental.getId()})}"
-                              method="post">
-                            <button type="submit" class="btn-primary">Return</button>
-                        </form>
-                    </td>
                 </tr>
             </table>
         </div>
@@ -89,7 +84,7 @@
                         <th scope="col">Title</th>
                         <th scope="col">Rent</th>
                     </tr>
-                    <tr th:each="reservation : ${reader.getReservations()}">
+                    <tr class="table-info" th:each="reservation : ${reader.getReservations()}">
                         <td th:text="${reservation.getBook().getId()}"></td>
                         <td th:text="${reservation.getBook().getBookDetails().getTitle()}"></td>
                         <td>

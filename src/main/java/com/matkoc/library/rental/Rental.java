@@ -40,4 +40,13 @@ public class Rental extends BaseEntity{
     public boolean isLate() {
         return LocalDate.now().isAfter(toDate);
     }
+
+    public int getStatus() {
+        if (finished)
+            return 2;
+        else if (isLate())
+            return 1;
+        else
+            return 3;
+    }
 }

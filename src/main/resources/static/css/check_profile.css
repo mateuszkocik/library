@@ -22,14 +22,6 @@
     margin-bottom: 0px;
 }
 
-h2 {
-    font-family: "DejaVu Sans Light";
-    font-size: xx-large;
-    font-weight: bolder;
-    text-align: center;
-    margin: 30px;
-}
-
 #details > p {
     font-family: "DejaVu Sans Mono";
     font-size: large;
@@ -37,11 +29,24 @@ h2 {
     text-align: center;
 }
 
-th {
-    text-align: center;
+#suggested_book_container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }
 
-td {
+#suggested_book_title {
     text-align: center;
-    padding: 15px;
+    font-size: large;
+    font-family: "DejaVu Sans Mono";
+    font-weight: lighter;
+    font-style: italic;
+}
+
+#suggested_book_button {
+    text-align: center;
+    font-size: large;
+    font-family: "DejaVu Sans Mono";
+    font-weight: bold;
 }

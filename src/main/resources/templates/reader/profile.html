@@ -2,30 +2,89 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Profile</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/check_profile.css">
 </head>
 <body>
-<a href=""></a>
-<h2 th:text="${reader.getFirstName()}"></h2>
-<h1>Rentals</h1>
-<div id="rentals_container">
-    <tr th:each="rental : ${reader.getRentals()}">
-        <td th:text="${rental.getFromDate()}"></td>
-        <td th:text="${rental.getToDate()}"></td>
-        <td th:text="${rental.getBook().getBookDetails().getTitle()}"></td>
-    </tr>
+
+<div class="container-fluid">
+
+    <div id="reader_details_cont" class="container" th:object="${reader}" style="margin-top: 30px">
+        <div id="details">
+            <h2>Details</h2>
+            <p th:text="*{firstName} + ' ' + *{lastName}"></p>
+            <p th:text="*{contactInformation.getEmail()}"></p>
+            <p th:text="*{contactInformation.getTelephoneNumber()}"></p>
+        </div>
+
+        <div id="suggested_book_container" th:if="${suggestedBook}" th:object="${suggestedBook}">
+            <h2>Your book for today!</h2>
+            <p id="suggested_book_title" th:text="${suggestedBook.getBookDetails().getTitle()}"></p>
+            <a id="suggested_book_button" th:href="@{'/reader/bookdetails?id=' + ${suggestedBook.getId()}}" class="btn btn-success btn-lg">Check! -></a>
+        </div>
+
+        <div id="rentals" th:if="${reader.getRentals() != null}">
+            <h2>Rentals</h2>
+            <table class="table table-responsive-lg table-hover">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Book ID</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">From</th>
+                    <th scope="col">To</th>
+                </tr>
+                </thead>
+                <tr th:each="rental : ${reader.getRentals()}">
+                    <th:block th:switch="${rental.getStatus()}">
+                        <div th:case="1">
+                            <td class="table-danger" th:text="${rental.getBook().getId()}"></td>
+                            <td class="table-danger" th:text="${rental.getBook().getBookDetails().getTitle()}"></td>
+                            <td class="table-danger" th:text="${rental.getFromDate()}"></td>
+                            <td class="table-danger" th:text="${rental.getToDate()}"></td>
+                        </div>
+                        <div th:case="2">
+                            <td class="table-success" th:text="${rental.getBook().getId()}"></td>
+                            <td class="table-success" th:text="${rental.getBook().getBookDetails().getTitle()}"></td>
+                            <td class="table-success" th:text="${rental.getFromDate()}"></td>
+                            <td class="table-success" th:text="${rental.getToDate()}"></td>
+                        </div>
+                        <div th:case="3">
+                            <td class="table-warning" th:text="${rental.getBook().getId()}"></td>
+                            <td class="table-warning" th:text="${rental.getBook().getBookDetails().getTitle()}"></td>
+                            <td class="table-warning" th:text="${rental.getFromDate()}"></td>
+                            <td class="table-warning" th:text="${rental.getToDate()}"></td>
+                        </div>
+                    </th:block>
+                </tr>
+            </table>
+        </div>
+
+        <div id="reservations" th:if="${reader.getReservations() != null}">
+            <h2>Reservations</h2>
+            <table class="table table-responsive-lg table-hover">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Book ID</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Cancel</th>
+                </tr>
+                <tr class="table-info" th:each="reservation : ${reader.getReservations()}">
+                    <td th:text="${reservation.getBook().getId()}"></td>
+                    <td th:text="${reservation.getBook().getBookDetails().getTitle()}"></td>
+                    <td>
+                        <form th:action="@{~/reader/profile/cancelReservation(id=${reservation.getId()})}" method="post">
+                            <button type="submit" class="btn-danger">Cancel</button>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
 </div>
-<h1>Reservations</h1>
-<div id="reservations_container">
-    <tr th:each="reservation : ${reader.getReservations()}">
-        <td th:text="${reservation.getBook().getBookDetails().getTitle()}"></td>
-        <td th:text="${reservation.getToDate()}"></td>
-        <td>
-            <form th:action="@{~/reader/profile/cancelReservation(id=${reservation.getId()})}" method="post">
-                <button type="submit">Cancel</button>
-            </form>
-        </td>
-    </tr>
-</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 </html>

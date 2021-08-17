@@ -47,9 +47,10 @@ public class ReaderController {
   public String showProfile(Model model, Principal principal) {
     Reader reader = readerService.getReaderByEmail(principal.getName());
     model.addAttribute("reader", reader);
-    Long suggestedBookId = galeShapley.getBookSuggestionIdForReader(reader);
-    Optional<Book> suggestedBook = bookService.getBookById(suggestedBookId);
-    if(suggestedBook.isPresent())
+//    Long suggestedBookId = galeShapley.getBookSuggestionIdForReader(reader);
+    Long suggestedBookId = 1L;
+    Book suggestedBook = bookService.getBookById(suggestedBookId).get();
+//    if(suggestedBook.isPresent())
       model.addAttribute("suggestedBook", suggestedBook);
     return viewPrefix + "profile";
   }

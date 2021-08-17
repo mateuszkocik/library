@@ -46,3 +46,23 @@ label {
 .form-group > p {
     color: red;
 }
+
+td {
+    font-family: "DejaVu Sans Mono";
+    font-size: large;
+    text-align: center;
+}
+
+th {
+    font-family: "DejaVu Sans Mono";
+    text-align: center;
+    font-size: x-large;
+}
+
+h2 {
+    font-family: "DejaVu Sans Mono";
+    font-size: xx-large;
+    font-weight: bolder;
+    text-align: center;
+    margin: 30px;
+}
