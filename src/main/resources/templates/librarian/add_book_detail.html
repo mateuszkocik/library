@@ -5,7 +5,7 @@
     <title>Add Book Details</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/add_book_details.css">
+    <link rel="stylesheet" href="/css/switch.css">
     <script language="javascript" type="text/javascript">
         function showHideAuthors(){
             var checked = document.getElementById('more_than_3_authors').checked;
@@ -75,8 +75,8 @@
                     More than 3 authors
                 </label>
             </div>
-            <h4>Authors</h4>
             <div id="authors_container" class="form-group">
+                <h4>Authors</h4>
                 <div class="form-group row" th:each="author, itemStat : *{authors}">
                     <div class="col">
                         <label for="author_first_name" th:text="'First Name ' + ${itemStat.index + 1}">First Name</label>

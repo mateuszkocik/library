@@ -16,6 +16,7 @@ public class BookDetailsDTO {
   private String publicationPlace;
   private boolean moreThanThreeAuthors;
   private List<AuthorDTO> authors;
+  private String authorsS;
 
   public BookDetailsDTO() {
     this.authors = new ArrayList<>(3);
