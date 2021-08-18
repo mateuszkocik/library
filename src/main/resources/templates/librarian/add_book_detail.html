@@ -2,36 +2,101 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Add Book Details</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/add_book_details.css">
+    <script language="javascript" type="text/javascript">
+        function showHideAuthors(){
+            var checked = document.getElementById('more_than_3_authors').checked;
+            if(checked) {
+                document.getElementById('authors_container').style.display = "none";
+            } else {
+                document.getElementById('authors_container').style.display = "block";
+            }
+        }
+    </script>
 </head>
 <body>
-<form action="/librarian/add-book-details" th:object="${bookDetails}" method="POST" enctype="utf8">
-    <div>
-        Title
-        <input th:field="*{title}" th:value="${bookDetails.getTitle()}"/>
-        <p th:each="error: ${#fields.errors('title')}"
-           th:text="${error}">Validation error</p>
+<div class="container-fluid">
+    <div class="container">
+        <h2>Add Book Details</h2>
+        <form action="/librarian/add-book-details" th:object="${bookDetails}" method="POST" enctype="utf8">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input id="title" class="form-control" th:field="*{title}" th:value="${bookDetails.getTitle()}" placeholder="Title"/>
+                <p th:each="error : ${#fields.errors('title')}"
+                   th:text="${error}">Validation error</p>
+            </div>
+            <div class="form-group">
+                <label for="genre">Genre</label>
+                <input id="genre" class="form-control" th:field="*{genre}" th:value="${bookDetails.getGenre()}" placeholder="Genre"/>
+                <p th:each="error : ${#fields.errors('genre')}"
+                   th:text="${error}">Validation error</p>
+            </div>
+            <div class="form-group">
+                <label for="publisher">Publisher</label>
+                <input id="publisher" class="form-control" th:field="*{publisher}" th:value="${bookDetails.getPublisher()}" placeholder="Publisher"/>
+                <p th:each="error : ${#fields.errors('publisher')}"
+                   th:text="${error}">Validation error</p>
+            </div>
+            <div class="row">
+                <div class="form-group col">
+                    <label for="edition">Edition</label>
+                    <input id="edition" class="form-control" th:field="*{edition}" th:value="${bookDetails.getEdition()}" placeholder="Edition">
+                    <p th:each="error : ${#fields.errors('edition')}"
+                       th:text="${error}">Validation error</p>
+                </div>
+                <div class="form-group col">
+                    <label for="volume">Volume</label>
+                    <input id="volume" class="form-control" th:field="*{volume}" th:value="${bookDetails.getVolume()}" placeholder="Volume">
+                    <p th:each="error : ${#fields.errors('volume')}"
+                       th:text="${error}">Validation error</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col">
+                    <label for="publication_year">Publication Year</label>
+                    <input id="publication_year" class="form-control" th:field="*{publicationYear}" th:value="${bookDetails.getPublicationYear()}" placeholder="Publication Year">
+                    <p th:each="error : ${#fields.errors('publicationYear')}"
+                       th:text="${error}">Validation error</p>
+                </div>
+                <div class="form-group col">
+                    <label for="publication_place">Publication Place</label>
+                    <input id="publication_place" class="form-control" th:field="*{publicationPlace}" th:value="${bookDetails.getPublicationPlace()}" placeholder="Publication Place">
+                    <p th:each="error : ${#fields.errors('publicationPlace')}"
+                       th:text="${error}">Validation error</p>
+                </div>
+            </div>
+
+            <div class="custom-control custom-switch custom-switch-xl">
+                <input type="checkbox" class="custom-control-input" id="more_than_3_authors" OnClick="showHideAuthors()">
+                <label class="custom-control-label" for="more_than_3_authors">
+                    More than 3 authors
+                </label>
+            </div>
+            <h4>Authors</h4>
+            <div id="authors_container" class="form-group">
+                <div class="form-group row" th:each="author, itemStat : *{authors}">
+                    <div class="col">
+                        <label for="author_first_name" th:text="'First Name ' + ${itemStat.index + 1}">First Name</label>
+                        <input id="author_first_name" class="form-control" th:field="*{authors[__${itemStat.index}__].firstName}" placeholder="First Name"/>
+                    </div>
+                    <div class="col">
+                        <label for="author_last_name" th:text="'Last Name ' + ${itemStat.index + 1}"></label>
+                        <input id="author_last_name" class="form-control" th:field="*{authors[__${itemStat.index}__].lastName}" placeholder="Last Name"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <button class="btn-primary btn-lg" type="submit">Add book details</button>
+            </div>
+        </form>
     </div>
-    <div>
-        Genre
-        <input th:field="*{genre}" th:value="${bookDetails.getGenre()}"/>
-        <p th:each="error : ${#fields.errors('genre')}"
-           th:text="${error}">Validation error</p>
-    </div>
-    <div>
-        Publisher
-        <input th:field="*{publisher}" th:value="${bookDetails.getPublisher()}"/>
-        <p th:each="error : ${#fields.errors('publisher')}"
-           th:text="${error}">Validation error</p>
-    </div>
-    <div>
-        Authors
-        <div th:each="author, itemStat : *{authors}">
-            <input th:field="*{authors[__${itemStat.index}__].firstName}" />
-            <input th:field="*{authors[__${itemStat.index}__].lastName}" />
-        </div>
-    </div>
-    <button type="submit">Add book details</button>
-</form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 </html>

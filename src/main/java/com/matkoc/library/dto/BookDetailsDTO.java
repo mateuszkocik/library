@@ -10,6 +10,11 @@ public class BookDetailsDTO {
   private String title;
   private String genre;
   private String publisher;
+  private Integer edition;
+  private Integer volume;
+  private String publicationYear;
+  private String publicationPlace;
+  private boolean moreThanThreeAuthors;
   private List<AuthorDTO> authors;
 
   public BookDetailsDTO() {

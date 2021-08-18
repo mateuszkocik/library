@@ -25,6 +25,18 @@ public class BookDetails extends BaseEntity {
   @Column(name = "publisher")
   private String publisher;
 
+  @Column(name = "edition")
+  private Integer edition;
+
+  @Column(name = "volume")
+  private Integer volume;
+
+  @Column(name = "publication_year")
+  private String publicationYear;
+
+  @Column(name = "publication_place")
+  private String publicationPlace;
+
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "bookDetails")
   private Collection<Author> authors;
 

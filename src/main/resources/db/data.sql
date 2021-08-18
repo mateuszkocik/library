@@ -39,12 +39,12 @@ INSERT INTO `authorities` VALUES
 -- (6, 'War and Peace', 'Novel', 'The Russian Messenger ');
 
 INSERT INTO `book_details` VALUES
-(1, 'Romeo and Juliet', 'Novel', 'Penguin Random House'),
-(2, 'Ulysses', 'Novel', 'Shakespeare and Company'),
-(3, 'In Search of Lost Time', 'Novel', 'Grasset and Gallimard'),
-(4, 'Don Quixote', 'Novel', 'Francisco de Robles'),
-(5, 'The Great Gatsby', 'Novel', 'Charles Scribners Sons'),
-(6, 'War and Peace', 'Novel', 'The Russian Messenger ');
+(1, 'Romeo and Juliet', 'Novel', 'Penguin Random House', null, null, null, null),
+(2, 'Ulysses', 'Novel', 'Shakespeare and Company', null, null, null, null),
+(3, 'In Search of Lost Time', 'Novel', 'Grasset and Gallimard', null, null, null, null),
+(4, 'Don Quixote', 'Novel', 'Francisco de Robles', null, null, null, null),
+(5, 'The Great Gatsby', 'Novel', 'Charles Scribners Sons', null, null, null, null),
+(6, 'War and Peace', 'Novel', 'The Russian Messenger ', null, null, null, null);
 
 INSERT INTO `books` VALUES
 (1, 1, 'BORROWED'),
@@ -73,7 +73,7 @@ INSERT INTO `rentals` VALUES
 (1, 1, 1, '2021-07-20', '2021-08-20', NULL, false),
 (2, 1, 1, '2021-08-20', '2021-08-20', NULL, false),
 (3, 1, 1, '2021-08-20', '2021-08-20', NULL, false),
-(4, 1, 1, '2021-08-20', '2021-08-20', NULL, false),
+(4, 1, 1, '2021-08-20', '2021-08-10', NULL, false),
 (5, 1, 1, '2021-08-20', '2021-08-20', NULL, false),
 (6, 1, 1, '2021-08-20', '2021-08-20', NULL, false),
 (7, 1, 1, '2021-08-20', '2021-08-20', NULL, false),

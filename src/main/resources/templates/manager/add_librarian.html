@@ -13,7 +13,7 @@
         <form action="/manager/add-librarian" th:object="${librarian}" method="POST" enctype="utf8">
             <div class="form-group">
                 <fieldset>
-                    <legend>Add new librarian</legend>
+                    <h2>Add new librarian</h2>
                     <div class="form-group">
                         <label for="email">Email</label>
                         <input id="email" class="form-control" th:field="*{email}" th:value="${librarian.getEmail()}" placeholder="Email"/>
@@ -64,7 +64,7 @@
                         <p id="temppass" th:text="${librarian.getPassword()}"></p>
                     </div>
                     <div class="row justify-content-center">
-                        <button id="add_user_button" class="btn-primary" type="submit">Add Librarian</button>
+                        <button class="btn-primary btn-lg" type="submit">Add Librarian</button>
                     </div>
                 </fieldset>
             </div>

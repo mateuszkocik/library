@@ -19,7 +19,11 @@ CREATE TABLE `book_details` (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(256) NOT NULL,
     genre VARCHAR(64) NOT NULL,
-    publisher VARCHAR(128) NOT NULL
+    publisher VARCHAR(128),
+    edition INT,
+    volume INT,
+    publication_year YEAR,
+    publication_place NVARCHAR(64)
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `authors` (

@@ -64,6 +64,7 @@
                         <th scope="col">Title</th>
                         <th scope="col">From</th>
                         <th scope="col">To</th>
+                        <th scope="col">Return</th>
                     </tr>
                 </thead>
                 <tr th:class="${rental.isLate() ? 'table-danger' : 'table-warning'}" th:each="rental : ${reader.getActiveRentals()}">
@@ -71,6 +72,11 @@
                     <td th:text="${rental.getBook().getBookDetails().getTitle()}"></td>
                     <td th:text="${rental.getFromDate()}"></td>
                     <td th:text="${rental.getToDate()}"></td>
+                    <td>
+                        <form th:action="@{~/librarian/check-profile/{email}/return-book/{id}(email=${reader.getUser().getUsername()}, id=${rental.getId()})}" method="post">
+                            <button type="submit" class="btn-danger">Return</button>
+                        </form>
+                    </td>
                 </tr>
             </table>
         </div>
