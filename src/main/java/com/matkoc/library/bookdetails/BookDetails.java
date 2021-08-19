@@ -42,4 +42,15 @@ public class BookDetails extends BaseEntity {
 
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "bookDetails")
   private Collection<Book> books;
+
+  public String getAuthorsAsString() {
+    Collection<Author> authors = getAuthors();
+    if(authors == null || authors.isEmpty())
+      return "Unknown";
+    StringBuilder result = new StringBuilder();
+    for(Author author : authors) {
+      result.append(author.toString() + ", ");
+    }
+    return result.substring(0, result.length() - 2);
+  }
 }

@@ -9,6 +9,7 @@ import com.matkoc.library.rental.RentalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 
 @Service
@@ -46,8 +47,11 @@ public class ReservationService {
     bookService.setBookStatus(book, BookStatus.BORROWED);
   }
 
+  @Transactional
   public void cancelReservation(Long id) {
     Reservation reservation = reservationRepository.findById(id).get();
+    reservation.getBook().setReservation(null);
+    reservation.getReader().getReservations().remove(reservation);
     bookService.setBookStatus(reservation.getBook(), BookStatus.AVAILABLE);
     reservationRepository.delete(reservation);
   }

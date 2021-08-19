@@ -23,4 +23,9 @@ public class Author {
   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JoinColumn(name = "bd_id")
   private BookDetails bookDetails;
+
+  @Override
+  public String toString() {
+    return firstName + ' ' + lastName;
+  }
 }

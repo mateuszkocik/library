@@ -2,42 +2,86 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Book Details</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
+<div class="container-fluid">
+    <div class="container">
+        <span th:if="${message}" th:text="${message}"></span>
+        <div id="book_details_container" th:object="${bookDetails}">
 
-<span th:if="${message}" th:text="${message}"></span>
-<div id="book_details_container" th:object="${bookDetails}">
-    Title
-    <span th:text="${bookDetails.getTitle()}"></span>
-    Genre
-    <span th:text="${bookDetails.getGenre()}"></span>
-    Publisher
-    <span th:text="${bookDetails.getPublisher()}"></span>
-</div>
-<br>Delete whole book details<br>
-<div id="delete_book_details_container">
-    <form th:action="@{~/librarian/bookdetails/{bookDetailsId}/delete(bookDetailsId=${bookDetails.getId()})}" method="post">
-        <button type="submit">Delete book details</button>
-    </form>
-</div>
-<br>Delete book<br>
-<div id="delete_book_container">
-    <form th:action="@{~/librarian/bookdetails/{bookDetailsId}/delete-book(bookDetailsId=${bookDetails.getId()})}" th:object="${deleteBookId}" method="post">
-        <div>
-            <input th:field="*{id}" th:value="${deleteBookId.getId()}"/>
-            <p th:each="error: ${#fields.errors('id')}"
-               th:text="${error}">Validation error</p>
+            <div class="row justify-content-center mb-0">
+                <h2 th:text="*{title}"></h2>
+            </div>
+
+            <div class="row justify-content-center mt-1 mb-5">
+                <h5>by Someone</h5>
+            </div>
+
+            <dl class="row">
+                <dt class="col-sm-3">Genre</dt>
+                <dd class="col-sm-9" th:text="*{genre}"></dd>
+
+                <dt class="col-sm-3" th:if="*{publisher}">Publisher</dt>
+                <dd class="col-sm-9" th:if="*{publisher}" th:text="*{publisher}"></dd>
+
+                <dt class="col-sm-3" th:if="*{edition}">Edition</dt>
+                <dd class="col-sm-9" th:if="*{edition}" th:text="*{edition}"></dd>
+
+
+                <dt class="col-sm-3" th:if="*{volume}">Volume</dt>
+                <dd class="col-sm-9" th:if="*{volume}" th:text="*{volume}"></dd>
+
+                <dt class="col-sm-3" th:if="*{publicationYear}">Publication Year</dt>
+                <dd class="col-sm-9" th:if="*{publicationYear}" th:text="*{publicationYear}"></dd>
+
+
+                <dt class="col-sm-3" th:if="*{publicationPlace}">Publication Place</dt>
+                <dd class="col-sm-9" th:if="*{publicationPlace}" th:text="*{publicationPlace}"></dd>
+            </dl>
         </div>
-        <button type="submit">Delete book with id</button>
-    </form>
-</div>
-<br>Add book<br>
-<div id="add_book__container">
-    <form th:action="@{~/librarian/bookdetails/{bookDetailsId}/add(bookDetailsId=${bookDetails.getId()})}" method="post">
-        <button type="submit">Add book</button>
-    </form>
+
+
+        <div class="row justify-content-center">
+            <h2>Actions</h2>
+        </div>
+
+        <div id="add_book__container" class="mb-5">
+            <h4>Add book</h4>
+            <form th:action="@{~/librarian/bookdetails/{bookDetailsId}/add(bookDetailsId=${bookDetails.getId()})}" method="post">
+                <button type="submit" class="btn-success btn-lg m-1">Add</button>
+            </form>
+        </div>
+
+        <div id="delete_book_details_container" class="mb-5">
+            <h4>Delete book details</h4>
+            <form th:action="@{~/librarian/bookdetails/{bookDetailsId}/delete(bookDetailsId=${bookDetails.getId()})}"
+                  method="post">
+                <button type="submit" class="btn-danger btn-lg m-1">Delete</button>
+            </form>
+        </div>
+
+
+
+
+        <div id="delete_book_container" class="mb-5">
+            <h4>Delete book</h4>
+            <form th:action="@{~/librarian/bookdetails/{bookDetailsId}/delete-book(bookDetailsId=${bookDetails.getId()})}" th:object="${deleteBookId}" method="post">
+                <div class="form-group">
+                    <input th:field="*{id}" class="col-3 form-control" th:value="${deleteBookId.getId()}" placeholder="Book Id"/>
+                    <p th:each="error: ${#fields.errors('id')}"
+                       th:text="${error}">Validation error</p>
+                </div>
+                <button type="submit" class="btn-warning btn-lg">Delete</button>
+            </form>
+        </div>
+    </div>
 </div>
 
 </body>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </html>

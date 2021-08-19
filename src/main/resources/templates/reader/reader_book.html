@@ -2,22 +2,67 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Book Details</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
 
-<span th:if="${message}" th:text="${message}"></span>
-<div id="book_details_container" th:object="${bookDetails}">
-    Title
-    <span th:text="${bookDetails.getTitle()}"></span>
-    Genre
-    <span th:text="${bookDetails.getGenre()}"></span>
-    Publisher
-    <span th:text="${bookDetails.getPublisher()}"></span>
+<div class="container-fluid">
+    <div class="container">
+        <span th:if="${message}" th:text="${message}"></span>
+        <div id="book_details_container" th:object="${bookDetails}">
 
-    <form th:if="${available}" th:action="@{~/reader/bookdetails(id=${bookDetails.getId()})}" method="post">
-        <button type="submit">Reserve</button>
-    </form>
+            <div class="row justify-content-center mb-0">
+                <h2 th:text="*{title}"></h2>
+            </div>
+
+            <div class="row justify-content-center mt-1 mb-5">
+                <h5>by Someone</h5>
+            </div>
+
+            <dl class="row">
+                <dt class="col-sm-3">Genre</dt>
+                <dd class="col-sm-9" th:text="*{genre}"></dd>
+
+                <dt class="col-sm-3" th:if="*{publisher}">Publisher</dt>
+                <dd class="col-sm-9" th:if="*{publisher}" th:text="*{publisher}"></dd>
+
+                <dt class="col-sm-3" th:if="*{edition}">Edition</dt>
+                <dd class="col-sm-9" th:if="*{edition}" th:text="*{edition}"></dd>
+
+
+                <dt class="col-sm-3" th:if="*{volume}">Volume</dt>
+                <dd class="col-sm-9" th:if="*{volume}" th:text="*{volume}"></dd>
+
+                <dt class="col-sm-3" th:if="*{publicationYear}">Publication Year</dt>
+                <dd class="col-sm-9" th:if="*{publicationYear}" th:text="*{publicationYear}"></dd>
+
+
+                <dt class="col-sm-3" th:if="*{publicationPlace}">Publication Place</dt>
+                <dd class="col-sm-9" th:if="*{publicationPlace}" th:text="*{publicationPlace}"></dd>
+            </dl>
+        </div>
+
+        <div id="reserve_book" class="mb-5" th:if="${available}">
+            <form th:action="@{~/reader/bookdetails(id=${bookDetails.getId()})}" method="post">
+                <div class="row justify-content-center">
+                    <button type="submit" class="btn-success btn-lg">Reserve</button>
+                </div>
+            </form>
+        </div>
+
+        <div id="book_not_available" th:if="${available == null}">
+            <div class="row justify-content-center">
+                <h3 style="color: red">Book currently not available</h3>
+            </div>
+        </div>
+
+    </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 </html>
