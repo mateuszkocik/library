@@ -47,10 +47,12 @@ public class ReaderController {
   public String showProfile(Model model, Principal principal) {
     Reader reader = readerService.getReaderByEmail(principal.getName());
     model.addAttribute("reader", reader);
-//    Long suggestedBookId = galeShapley.getBookSuggestionIdForReader(reader);
-    Long suggestedBookId = 1L;
-    Book suggestedBook = bookService.getBookById(suggestedBookId).get();
-//    if(suggestedBook.isPresent())
+    Book suggestedBook = bookService.getRandomAvailableBooks(1L).get(0);
+    try {
+      suggestedBook = bookService.getBookById(galeShapley.getBookSuggestionIdForReader(reader)).get();
+    } catch(Exception e) {
+
+    }
       model.addAttribute("suggestedBook", suggestedBook);
     return viewPrefix + "profile";
   }
@@ -60,6 +62,13 @@ public class ReaderController {
     ModelAndView modelAndView = new ModelAndView(viewPrefix + "profile");
     Reader reader = readerService.getReaderByEmail(principal.getName());
     modelAndView.addObject("reader", reader);
+    Book suggestedBook = bookService.getRandomAvailableBooks(1L).get(0);
+    try {
+      suggestedBook = bookService.getBookById(galeShapley.getBookSuggestionIdForReader(reader)).get();
+    } catch(Exception e) {
+
+    }
+    modelAndView.addObject("suggestedBook", suggestedBook);
     reservationService.cancelReservation(id);
     return modelAndView;
   }

@@ -2,22 +2,36 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Activate Account</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
-wypisac jaki format hasla
-<form action="/login/activate-account" th:object="${password}" method="POST" enctype="utf8">
-    <div>
-        <input type="password" th:field="*{password}" th:value="${password.getPassword()}"/>
-        <p th:each="error: ${#fields.errors('password')}"
-           th:text="${error}">Validation error</p>
+<div class="container-fluid">
+    <div class="container">
+        <form action="/login/activate-account" th:object="${password}" method="POST" enctype="utf8">
+            <h2>Activate Account</h2>
+            <div class="form-group">
+                <label for="pass">New Password</label>
+                <input type="password" class="form-control form-control-lg" id="pass" name="pass" placeholder="Password" th:field="*{password}" th:value="${password.getPassword()}"/>
+                <p th:each="error: ${#fields.errors('password')}"
+                   th:text="${error}">Validation error</p>
+            </div>
+            <div class="form-group">
+                <label for="mpass">Matching Password</label>
+                <input type="password" class="form-control form-control-lg" id="mpass" name="pass" placeholder="Matching Password" th:field="*{matchingPassword}" th:value="${password.getMatchingPassword()}"/>
+                <p th:each="error : ${#fields.errors('matchingPassword')}"
+                   th:text="${error}">Validation error</p>
+            </div>
+            <div class="row justify-content-center">
+                <button class="btn-primary btn-lg" type="submit">Change password</button>
+            </div>
+        </form>
     </div>
-    <div>
-        <input type="password" th:field="*{matchingPassword}" th:value="${password.getMatchingPassword()}"/>
-        <p th:each="error : ${#fields.errors('matchingPassword')}"
-           th:text="${error}">Validation error</p>
-    </div>
-    <button type="submit">Change password</button>
-</form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 </html>

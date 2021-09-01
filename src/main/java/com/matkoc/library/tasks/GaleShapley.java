@@ -28,7 +28,7 @@ public class GaleShapley{
   HashMap<Long, Long> matches;
 
   @Transactional
-  @Scheduled(cron = "15 * * * * *")
+  @Scheduled(cron = "0 0 0 * * *")
   public void runAlgorithm(){
     initialize();
     fillMatchesFromIndexes(findMatchesIndexes());

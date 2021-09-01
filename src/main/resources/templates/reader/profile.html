@@ -22,7 +22,7 @@
         <div id="suggested_book_container" th:if="${suggestedBook}" th:object="${suggestedBook}">
             <h2>Your book for today!</h2>
             <p id="suggested_book_title" th:text="${suggestedBook.getBookDetails().getTitle()}"></p>
-            <a id="suggested_book_button" th:href="@{'/reader/bookdetails?id=' + ${suggestedBook.getId()}}" class="btn btn-success btn-lg">Check! -></a>
+            <a id="suggested_book_button" th:href="@{'/reader/bookdetails?id=' + ${suggestedBook.getBookDetails().getId()}}" class="btn btn-success btn-lg">Check! -></a>
         </div>
 
         <div id="rentals" th:if="${reader.getRentals() != null and !reader.getRentals().isEmpty()}">
