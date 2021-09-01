@@ -61,19 +61,29 @@ public class ManagerController {
     return new ModelAndView(viewPrefix + "/manager");
   }
 
+  @GetMapping("/remove-librarian")
+  public ModelAndView removeLibrarianPage() {
+    UserDTO userDTO = new UserDTO();
+    return new ModelAndView(viewPrefix + "remove_librarian", "librarian", userDTO);
+  }
+
+  @PostMapping("/remove-librarian")
+  public ModelAndView removeLibrarianPost(@ModelAttribute("librarian") UserDTO userDTO) {
+    try{
+      System.out.println(userDTO.getEmail());
+      librarianService.removeLibrarian(userDTO.getEmail());
+    } catch(Exception e) {
+      System.out.println(e.getMessage());
+    }
+    return new ModelAndView(viewPrefix + "remove_librarian", "librarian", userDTO);
+  }
+
+
   @GetMapping("/statistics")
   public ModelAndView statisticsPage() {
     ModelAndView modelAndView = new ModelAndView(viewPrefix + "statistics");
     Map<String, Long> beforeSort = rentalService.getRentalAmountInPreviousYear();
     TreeMap<String, Long> sorted = new TreeMap<>(beforeSort);
     return modelAndView.addObject("rentalCounterData", sorted);
-//,Long> barChartData = new HashMap<>();
-//    barChartData.put("Samsung",5000L);
-//    barChartData.put("Iphone",10000L);
-//    barChartData.put("MI",2000L);
-//    barChartData.put("Lava",4000L);
-//    barChartData.put("Oppo",3560L);
-//    barChartData.put("HTC",5560L);
-//    return modelAndView.addObject("barChartData",barChartData);
   }
 }

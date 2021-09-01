@@ -19,7 +19,8 @@ INSERT INTO `users` VALUES
 ('inactive@gmail.com', '$2y$12$cg7VliRBuIW./QtzIZVj4eLevqkK4U3vTl4I/XFSKc7i/5BtkYHY2'), -- inactive@gmail.com test123
 ('test1@gmail.com', '$2y$12$TLo0xjM.dXfoi8PkBl.NNOOp6/12YWcep3NGT1RzClD1N8kBARkE6'),
 ('test2@gmail.com', '$2y$12$TLo0xjM.dXfoi8PkBl.NNOOp6/12YWcep3NGT1RzClD1N8kBARkE6'),
-('test3@gmail.com', '$2y$12$TLo0xjM.dXfoi8PkBl.NNOOp6/12YWcep3NGT1RzClD1N8kBARkE6');
+('test3@gmail.com', '$2y$12$TLo0xjM.dXfoi8PkBl.NNOOp6/12YWcep3NGT1RzClD1N8kBARkE6'),
+('johnsmith@gmail.com', '$2y$12$TLo0xjM.dXfoi8PkBl.NNOOp6/12YWcep3NGT1RzClD1N8kBARkE6');
 
 INSERT INTO `authorities` VALUES
 ('manager@gmail.com', 'ROLE_MANAGER'),
@@ -28,7 +29,8 @@ INSERT INTO `authorities` VALUES
 ('inactive@gmail.com', 'ROLE_INACTIVE'),
 ('test1@gmail.com', 'ROLE_READER'),
 ('test2@gmail.com', 'ROLE_READER'),
-('test3@gmail.com', 'ROLE_READER');
+('test3@gmail.com', 'ROLE_READER'),
+('johnsmith@gmail.com', 'ROLE_READER');
 
 -- INSERT INTO `book_details` VALUES
 -- (1, 'Romeo and Juliet', 'Shakespearean tragedy', 'Penguin Random House'),
@@ -46,13 +48,14 @@ INSERT INTO `book_details` VALUES
 (5, 'The Great Gatsby', 'Novel', 'Charles Scribners Sons', null, null, null, null),
 (6, 'War and Peace', 'Novel', 'The Russian Messenger ', null, null, null, null);
 
+
 INSERT INTO `books` VALUES
-(1, 1, 'BORROWED'),
-(2, 2, 'RESERVED'),
-(3,1, 'AVAILABLE'),
-(4,3, 'AVAILABLE'),
-(5,4, 'AVAILABLE'),
-(6,5, 'AVAILABLE'),
+(2146, 6, 'BORROWED'),
+(3215, 2, 'RESERVED'),
+(1328, 3, 'AVAILABLE'),
+(7893, 4, 'AVAILABLE'),
+(321, 5, 'AVAILABLE'),
+(1,1, 'AVAILABLE'),
 (7,6, 'AVAILABLE'),
 (8,3, 'AVAILABLE'),
 (9,2, 'AVAILABLE');
@@ -64,45 +67,17 @@ INSERT INTO `readers` VALUES
 (1, 'test123_name', 'test_123_lastname', 'MAN', '123456789', 'test123@gmail.com'),
 (2, 'test1', 'test1', 'MAN', '123456789', 'test1@gmail.com'),
 (3, 'test2', 'test2', 'MAN', '123456789', 'test2@gmail.com'),
-(4, 'test3', 'test3', 'MAN', '123456789', 'test3@gmail.com');
+(4, 'test3', 'test3', 'MAN', '123456789', 'test3@gmail.com'),
+(5, 'John', 'Smith', 'MAN', '691382177', 'johnsmith@gmail.com');
 
 INSERT INTO `librarians` VALUES
 (1, 'librarian_name', 'librarian_lastname', 'WOMAN', '123456789', 'librarian@gmail.com');
 
 INSERT INTO `rentals` VALUES
-(1, 1, 1, '2021-07-20', '2021-08-20', NULL, false),
-(2, 1, 1, '2021-08-20', '2021-08-20', NULL, false),
-(3, 1, 1, '2021-08-20', '2021-08-20', NULL, false),
-(4, 1, 1, '2021-08-20', '2021-08-10', NULL, false),
-(5, 1, 1, '2021-08-20', '2021-08-20', NULL, false),
-(6, 1, 1, '2021-08-20', '2021-08-20', NULL, false),
-(7, 1, 1, '2021-08-20', '2021-08-20', NULL, false),
-(8, 1, 1, '2021-06-20', '2021-08-20', NULL, false),
-(9, 1, 1, '2021-06-20', '2021-08-20', NULL, false),
-(10, 1, 1, '2021-06-20', '2021-08-20', NULL, false),
-(11, 1, 1, '2021-06-20', '2021-08-20', NULL, false),
-(12, 1, 1, '2021-06-20', '2021-08-20', NULL, false),
-(13, 1, 1, '2021-06-20', '2021-08-20', NULL, false),
-(14, 1, 1, '2021-06-20', '2021-08-20', NULL, false),
-(15, 1, 1, '2021-06-20', '2021-08-20', NULL, false),
-(16, 1, 1, '2021-06-20', '2021-08-20', NULL, false),
-(17, 1, 1, '2021-06-20', '2021-08-20', NULL, false),
-(18, 1, 1, '2021-06-20', '2021-08-20', NULL, false),
-(19, 1, 1, '2021-06-20', '2021-08-20', NULL, false),
-(20, 1, 1, '2021-06-20', '2021-08-20', NULL, false),
-(21, 1, 1, '2021-06-20', '2021-08-20', NULL, false),
-(22, 1, 1, '2021-06-20', '2021-08-20', NULL, false),
-(23, 1, 1, '2021-06-20', '2021-08-20', NULL, false),
-(24, 1, 1, '2021-06-20', '2021-08-20', NULL, false),
-(25, 1, 1, '2021-06-20', '2021-08-20', NULL, false),
-(26, 1, 1, '2021-06-20', '2021-08-20', NULL, false),
-(27, 1, 1, '2021-06-20', '2021-08-20', NULL, false),
-(28, 1, 1, '2021-06-20', '2021-08-20', NULL, false),
-(29, 2, 1, '2021-06-20', '2021-08-20', NULL, false),
-(30, 1, 3, '2021-06-20', '2021-08-20', NULL, true),
-(31, 3, 3, '2021-06-20', '2021-08-20', NULL, true),
-(32, 4, 3, '2021-06-20', '2021-08-20', NULL, true),
-(33, 1, 2, '2021-06-20', '2021-08-20', NULL, true);
+(1, 2146, 5, '2021-08-20', '2021-09-20', NULL, false),
+(2, 1328, 5, '2021-07-15', '2021-08-15', NULL, false),
+(3, 7893, 5, '2021-06-17', '2021-07-17', NULL, true),
+(4, 321, 5, '2021-05-01', '2021-06-01', NULL, true);
 
 INSERT INTO `reservations` VALUES
-(1, 2, 1, '2021-10-10');
+(1, 3215, 5, '2021-09-10');

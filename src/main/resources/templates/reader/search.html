@@ -75,12 +75,14 @@
 
 <div class="container" th:if="${results == null or !results.isEmpty()}">
     <table class="table table-hover">
-        <tr>
-            <th scope="col">Title</th>
-            <th scope="col">Author</th>
-            <th scope="col">Genre</th>
-            <th scope="col">Details</th>
-        </tr>
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Author</th>
+                <th scope="col">Genre</th>
+                <th scope="col">Details</th>
+            </tr>
+        </thead>
         <tr th:each ="bD : ${results}">
             <td th:text="${bD.getTitle()}"/>
             <td th:text="${bD.getAuthorsAsString()}"/>

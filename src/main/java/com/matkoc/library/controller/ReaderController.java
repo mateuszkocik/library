@@ -55,7 +55,7 @@ public class ReaderController {
     return viewPrefix + "profile";
   }
 
-  @PostMapping("/profile/cancelReservation")
+  @PostMapping("/profile/cancel-reservation")
   public ModelAndView cancelReservation(Principal principal, @RequestParam(value = "id") Long id) {
     ModelAndView modelAndView = new ModelAndView(viewPrefix + "profile");
     Reader reader = readerService.getReaderByEmail(principal.getName());

@@ -66,11 +66,9 @@ public class GaleShapley{
     int unmatchedReadersCount = unmatchedReaders.size();
     while (unmatchedReadersCount > 0) {
       int unmatchedReader = unmatchedReaders.iterator().next();
-      System.out.println("\nReader " + unmatchedReader + " is looking for a book now-");
       for (int b = 0; b < readersPref[unmatchedReader].length; b++) {
         if (matchesIndexes.get(b) == null) {
           matchesIndexes.put(b, unmatchedReader);
-          System.out.println("Book " + b + " has ACCEPTED the reader: " + unmatchedReader);
           unmatchedReaders.remove(unmatchedReader);
           break;
         } else {
@@ -79,8 +77,6 @@ public class GaleShapley{
             matchesIndexes.put(b, unmatchedReader);
             unmatchedReaders.add(alreadyMatchedReader);
             unmatchedReaders.remove(unmatchedReader);
-            System.out.println("Book " + b + " has DUMPED the reader: " + alreadyMatchedReader);
-            System.out.println("Book " + b + " has ACCEPTED the reader: " + unmatchedReader);
             break;
           }
         }
@@ -127,8 +123,6 @@ public class GaleShapley{
     if (rentedBooksDetails.contains(bookDetails)) return score;
     if (onSetIsBookWithGenre(rentedBooksDetails, bookDetails.getGenre())) score += 0.25;
     if (onSetIsBookWithPublisher(rentedBooksDetails, bookDetails.getPublisher())) score += 0.5;
-    // zrobic wydawnictwo i ew data
-
     return score;
   }
 

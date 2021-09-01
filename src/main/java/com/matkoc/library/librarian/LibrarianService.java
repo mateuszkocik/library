@@ -26,4 +26,8 @@ public class LibrarianService {
     librarian.setContactInformation(contactInformation);
     return librarianRepository.save(librarian);
   }
+
+  public void removeLibrarian(String email) {
+    librarianRepository.delete(librarianRepository.getLibrarianByContactInformation_Email(email));
+  }
 }

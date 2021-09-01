@@ -17,7 +17,7 @@
             </div>
 
             <div class="row justify-content-center mt-1 mb-5">
-                <h5>by Someone</h5>
+                <h5 th:text="'by ' + ${bookDetails.getAuthorsAsString()}"></h5>
             </div>
 
             <dl class="row">

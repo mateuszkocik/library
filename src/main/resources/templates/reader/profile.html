@@ -25,7 +25,7 @@
             <a id="suggested_book_button" th:href="@{'/reader/bookdetails?id=' + ${suggestedBook.getId()}}" class="btn btn-success btn-lg">Check! -></a>
         </div>
 
-        <div id="rentals" th:if="${reader.getRentals() != null}">
+        <div id="rentals" th:if="${reader.getRentals() != null and !reader.getRentals().isEmpty()}">
             <h2>Rentals</h2>
             <table class="table table-responsive-lg table-hover">
                 <thead class="thead-dark">
@@ -61,7 +61,7 @@
             </table>
         </div>
 
-        <div id="reservations" th:if="${reader.getReservations() != null}">
+        <div id="reservations" th:if="${reader.getReservations() != null and !reader.getReservations().isEmpty()}">
             <h2>Reservations</h2>
             <table class="table table-responsive-lg table-hover">
                 <thead class="thead-dark">
@@ -74,7 +74,7 @@
                     <td th:text="${reservation.getBook().getId()}"></td>
                     <td th:text="${reservation.getBook().getBookDetails().getTitle()}"></td>
                     <td>
-                        <form th:action="@{~/reader/profile/cancelReservation(id=${reservation.getId()})}" method="post">
+                        <form th:action="@{~/reader/profile/cancel-reservation(id=${reservation.getId()})}" method="post">
                             <button type="submit" class="btn-danger">Cancel</button>
                         </form>
                     </td>
