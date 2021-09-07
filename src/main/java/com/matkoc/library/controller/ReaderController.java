@@ -11,6 +11,7 @@ import com.matkoc.library.reader.Reader;
 import com.matkoc.library.reader.ReaderService;
 import com.matkoc.library.reservation.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +36,7 @@ public class ReaderController {
   BookService bookService;
   @Autowired
   ReservationService reservationService;
+  @Lazy
   @Autowired
   GaleShapley galeShapley;
 
@@ -47,13 +49,13 @@ public class ReaderController {
   public String showProfile(Model model, Principal principal) {
     Reader reader = readerService.getReaderByEmail(principal.getName());
     model.addAttribute("reader", reader);
-    Book suggestedBook = bookService.getRandomAvailableBooks(1L).get(0);
     try {
-      suggestedBook = bookService.getBookById(galeShapley.getBookSuggestionIdForReader(reader)).get();
-    } catch(Exception e) {
-
-    }
+      Book suggestedBook = bookService.getBookById(galeShapley.getBookSuggestionIdForReader(reader)).get();
       model.addAttribute("suggestedBook", suggestedBook);
+    } catch(Exception e) {
+      System.out.println(e.getMessage());
+    }
+
     return viewPrefix + "profile";
   }
 
@@ -62,13 +64,12 @@ public class ReaderController {
     ModelAndView modelAndView = new ModelAndView(viewPrefix + "profile");
     Reader reader = readerService.getReaderByEmail(principal.getName());
     modelAndView.addObject("reader", reader);
-    Book suggestedBook = bookService.getRandomAvailableBooks(1L).get(0);
     try {
-      suggestedBook = bookService.getBookById(galeShapley.getBookSuggestionIdForReader(reader)).get();
+      Book suggestedBook = bookService.getBookById(galeShapley.getBookSuggestionIdForReader(reader)).get();
+      modelAndView.addObject("suggestedBook", suggestedBook);
     } catch(Exception e) {
-
+      System.out.println(e.getMessage());
     }
-    modelAndView.addObject("suggestedBook", suggestedBook);
     reservationService.cancelReservation(id);
     return modelAndView;
   }

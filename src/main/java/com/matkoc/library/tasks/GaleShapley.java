@@ -7,13 +7,17 @@ import com.matkoc.library.reader.Reader;
 import com.matkoc.library.reader.ReaderService;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Lazy
 @Component
 public class GaleShapley{
 
@@ -26,11 +30,18 @@ public class GaleShapley{
   Long[][] readersPref;
   Long[][] booksPref;
   HashMap<Long, Long> matches;
+  LocalDateTime lastUpdateTime;
+
+  @PostConstruct
+  public void init() {
+    runAlgorithm();
+  }
 
   @Transactional
   @Scheduled(cron = "0 0 0 * * *")
   public void runAlgorithm(){
-    initialize();
+    lastUpdateTime = LocalDateTime.now();
+    initializeFields();
     fillMatchesFromIndexes(findMatchesIndexes());
   }
 
@@ -38,7 +49,21 @@ public class GaleShapley{
     return matches.get(reader.getId());
   }
 
-  private void initialize() {
+  public LocalDateTime getLastUpdateTime() {
+    return lastUpdateTime;
+  }
+
+  public HashMap<Reader,Book> getSuggestions() {
+    HashMap<Reader,Book> map = new HashMap<>();
+    for (Long readerId : matches.keySet()) {
+      Reader reader = readerService.getReaderById(readerId);
+      Book book = bookService.getBookById(matches.get(readerId)).get();
+      map.put(reader, book);
+    }
+    return map;
+  }
+
+  private void initializeFields() {
     readers = readerService.getAllReaders();
     size = readers.size();
     books = bookService.getRandomAvailableBooks((long) size);

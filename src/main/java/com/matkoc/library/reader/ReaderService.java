@@ -38,6 +38,10 @@ public class ReaderService {
     return readerRepository.findByEmail(email);
   }
 
+  public Reader getReaderById(Long id) {
+    return readerRepository.findById(id).get();
+  }
+
   public Reader registerNewReader(UserDTO userDto) throws UserAlreadyExistException {
     User user = userService.registerNewUser(userDto);
     Reader reader = new Reader();

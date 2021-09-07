@@ -66,3 +66,13 @@ h2 {
     text-align: center;
     margin: 30px;
 }
+
+#suggested_books_info {
+    margin: 30px;
+}
+
+#suggested_books_info > p {
+    font-family: "DejaVu Sans Mono";
+    font-size: large;
+    text-align: center;
+}
